@@ -8,5 +8,5 @@
 - #### DB
   - **DBeaver :** [[다운]](https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe)
   - **Oracle(21c) :** [[다운]](https://download.oracle.com/otn-pub/otn_software/db-express/OracleXE213_Win64.zip)
-  - **Tomcat 9.0 :** [[다운]](https://tomcat.apache.org/download-90.cgi)
+  - **Tomcat 9.0 :** [[다운]](https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.102/bin/apache-tomcat-9.0.102.zip)
   - **JDBC Driver :** [[다운]](https://www.oracle.com/kr/database/technologies/appdev/jdbc-downloads.html)
