@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+@charset "UTF-8";
+
+* {
+	margin: auto;
+}
+
+header {
+	position: fixed;
+	height: 40px;
+	background-color: gray;
+	width: 100%;
+	line-height: 40px;
+	font-size: 15px;
+	color: white;
+}
+
+header h2 {
+	text-align: center;
+	margin-left: 12px;
+}
+
+nav a:link {
+	color: white;
+	text-decoration: none;
+}
+
+nav a:visited {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	color: lightgray;
+	text-decoration: underline;
+}
+
+nav a:active {
+	color: lightgray;
+	text-decoration: none;
+}
+
+nav {
+	position: fixed;
+	text-align: center;
+	top: 40px;
+	width: 100%;
+	height: 20px;
+	background-color: black;
+	color: white;
+}
+
+nav a {
+	display: inline-block;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+section {
+	text-align: center;
+	position: fixed;
+	top: 60px;
+	width: 100%;
+	height: 100%;
+	background-color: lightgray;
+}
+
+section table {
+	margin-bottom: 20px;
+	background-color: white;
+}
+
+section h3 {
+	margin-top: 10px;
+}
