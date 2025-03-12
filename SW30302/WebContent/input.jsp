@@ -1,5 +1,4 @@
-<%@ page import="java.sql.*"%>
-<%@ page import="common.JDBC"%>
+<%@page import="common.JDBC"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,22 +15,18 @@
 
 		<%
 			request.setCharacterEncoding("UTF-8");
-
+			JDBC jdbc = new JDBC();
 		try {
-			// 요청 파라미터가 있는 경우에만 세션에 값을 저장합니다.
-			String custno = request.getParameter("id");
-			String custname = request.getParameter("name");
-			String phone = request.getParameter("phone");
-			String address = request.getParameter("address");
-			String joindate = request.getParameter("joindate");
-			String grade = request.getParameter("grade");
-			String city = request.getParameter("city");
+			String sql = "select max(custno)+1 from member_tbl_02";
+			jdbc.rs = jdbc.conn.prepareStatement(sql).executeQuery();
+			jdbc.rs.next();
 		%>
-		<form action="input_E.jsp" method="post">
+		<form action="input_c.jsp" method="post">
 			<table border="1">
 				<tr>
 					<td>회원번호</td>
-					<td><input type="text" name="custno" required></td>
+					<td><input type="text" readonly name="custno"
+						value="<%=jdbc.rs.getString(1)%>"></td>
 				</tr>
 				<tr>
 					<td>회원이름</td>
@@ -58,7 +53,9 @@
 					<td><input type="text" name="city" required></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="submit" value="등록"></td>
+					<td colspan="2"><input type="submit" value="등록">
+					<a href="list.jsp"><input type="button" value="조회"></a>
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -73,5 +70,9 @@
 			}
 		%>
 	</section>
+
+	<footer>
+		<h2>상일미디어고 30302 Kim MyJun</h2>
+	</footer>
 </body>
 </html>

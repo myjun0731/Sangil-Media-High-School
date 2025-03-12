@@ -10,7 +10,7 @@
 <body>
 	<%
 	request.setCharacterEncoding("UTF-8");
-	
+
 	String custno = request.getParameter("custno");
 	String custname = request.getParameter("custname");
 	String phone = request.getParameter("phone");

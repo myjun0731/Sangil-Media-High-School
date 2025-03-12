@@ -9,7 +9,7 @@
 </head>
 <body>
 	<%
-		request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 
 	String custno = request.getParameter("custno");
 	String custname = request.getParameter("custname");
@@ -19,7 +19,7 @@
 	String grade = request.getParameter("grade");
 	String city = request.getParameter("city");
 
-	String sql = "UPDATE member_tbl_02 SET custname = ?, phone = ?, address = ? joindate = ?, grade = ?, city = ? WHERE custno = ?";
+	String sql = "UPDATE member_tbl_02 SET custname = ?, phone = ?, address = ?, joindate = ?, grade = ?, city = ? WHERE custno = ?";
 
 	JDBC jdbc = new JDBC();
 	jdbc.pstmt = jdbc.conn.prepareStatement(sql);
@@ -32,8 +32,6 @@
 	jdbc.pstmt.setString(6, city);
 	jdbc.pstmt.setString(7, custno);
 	jdbc.pstmt.executeUpdate();
-	jdbc.close();
-
 	response.sendRedirect("list.jsp");
 	%>
 </body>

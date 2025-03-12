@@ -14,7 +14,7 @@ public class JDBC {
 	public JDBC() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
-			
+
 			String url = "jdbc:oracle:thin:@//localhost:1521/xe";
 			String db_id = "system";
 			String db_pw = "1234";

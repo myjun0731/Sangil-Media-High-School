@@ -24,7 +24,7 @@
 
 
 			<%
-				request.setCharacterEncoding("UTF-8");
+			request.setCharacterEncoding("UTF-8");
 
 			JDBC jdbc = new JDBC();
 			String sql = "SELECT * FROM member_tbl_02";
@@ -36,19 +36,22 @@
 			%>
 
 			<tr>
-				<td><a href="input_D.jsp?custno=<%=jdbc.rs.getString(1)%>"><%=jdbc.rs.getString(1)%></a></td>
+				<td><a href="input_d.jsp?custno=<%=jdbc.rs.getString(1)%>"><%=jdbc.rs.getString(1)%></a></td>
 				<td><%=jdbc.rs.getString(2)%></td>
 				<td><%=jdbc.rs.getString(3)%></td>
 				<td><%=jdbc.rs.getString(4)%></td>
-				<td><%=jdbc.rs.getString(5)%></td>
+				<td><%=jdbc.rs.getString(5).substring(0, 10)%></td>
 				<td><%=jdbc.rs.getString(6)%></td>
 				<td><%=jdbc.rs.getString(7)%></td>
 			</tr>
 			<%
-				}
+			}
 			jdbc.close();
 			%>
 		</table>
 	</section>
+	<footer>
+		<h2>상일미디어고 30302 Kim MyJun</h2>
+	</footer>
 </body>
 </html>
