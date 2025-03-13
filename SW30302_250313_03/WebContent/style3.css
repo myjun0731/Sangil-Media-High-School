@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+}
+
+header {
+	top: 0px;
+	height: 50px;
+	line-height: 50px;
+	width: 100%;
+	background-color: black;
+}
+
+header h1 {
+	text-align: center;
+	color: white;
+}
+
+nav {
+	top: 50px;
+	height: 30px;
+	line-height: 30px;
+	width: 100%;
+	background-color: gray;
+}
+
+nav a {
+	padding-left: 12px;
+	color: white;
+}
+
+section {
+	top: 80px;
+	height: 100%;
+	width: 100%;
+	background-color: lightgray;
+}
+
+section h2 {
+	text-align: center;
+}
