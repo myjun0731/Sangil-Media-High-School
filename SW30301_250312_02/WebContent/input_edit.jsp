@@ -14,7 +14,7 @@
 
 		<h2>수정</h2>
 		<%
-			request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 
 		String custno = request.getParameter("custno");
 
