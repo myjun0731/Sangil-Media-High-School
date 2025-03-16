@@ -14,7 +14,7 @@
 		for (var i = 0; i < fields.length; i++) {
 			var field = form[fields[i]];
 			if (field.value.trim() == "") {
-				alert(fields[i] + "을(를) 입력해 주세요.");
+				alert(fields[i] + "이(가) 입력되지 않았습니다.");
 				field.focus();
 				return false;
 			} else {

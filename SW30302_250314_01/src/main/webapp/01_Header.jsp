@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 
 <style>
+*{
+	margin: 0;
+}
 nav a {
 	padding-left: 12px; 
 }

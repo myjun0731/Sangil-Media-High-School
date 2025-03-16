@@ -26,7 +26,7 @@
 <body>
 	<jsp:include page="01_Header.jsp"></jsp:include>
 
-		<h2 style="text-align: center;">수정</h2>
+	<h2 style="text-align: center;">수정</h2>
 	<section style="justify-content: center; display: flex">
 		<%
 		request.setCharacterEncoding("UTF-8");
