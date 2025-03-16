@@ -17,9 +17,11 @@
 				alert(fields[i] + "을(를) 입력해 주세요.");
 				field.focus();
 				return false;
+			} else {
+				alert('회원등록이 왼료되었습니다.');
+				return true;
 			}
 		}
-		return true;
 	}
 </script>
 </head>
@@ -71,9 +73,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align: center;"><input
-						type="submit" value="등록"> <input type="button"
-						value="조회" onclick="window.location.href='04_MemberList.jsp';">
-					</td>
+						type="submit" value="등록"> <input type="button" value="조회"
+						onclick="window.location.href='04_MemberList.jsp';"></td>
 				</tr>
 			</table>
 		</form>
