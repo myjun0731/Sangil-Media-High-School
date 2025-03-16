@@ -18,7 +18,7 @@
 				field.focus();
 				return false;
 			} else {
-				alert('회원등록이 왼료되었습니다.');
+				alert('회원등록이 완료되었습니다.');
 				return true;
 			}
 		}
