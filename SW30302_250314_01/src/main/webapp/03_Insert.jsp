@@ -9,21 +9,43 @@
 <script>
 	function validateForm() {
 		var form = document.forms["form"];
-		var fields = [ "custname", "phone", "address", "joindate", "grade",
-				"city" ];
-		for (var i = 0; i < fields.length; i++) {
-			var field = form[fields[i]];
-			if (field.value.trim() == "") {
-				alert(fields[i] + "이(가) 입력되지 않았습니다.");
-				field.focus();
-				return false;
-			} else {
-				alert('회원등록이 완료되었습니다.');
-				return true;
-			}
+
+		if (form["custname"].value.trim() === "") {
+			alert("회원성명이 입력되지 않았습니다.");
+			form["custname"].focus();
+			return false;
 		}
+		if (form["phone"].value.trim() === "") {
+			alert("회원전화가 입력되지 않았습니다.");
+			form["phone"].focus();
+			return false;
+		}
+		if (form["address"].value.trim() === "") {
+			alert("회원주소가 입력되지 않았습니다.");
+			form["address"].focus();
+			return false;
+		}
+		if (form["joindate"].value.trim() === "") {
+			alert("가입일자가 입력되지 않았습니다.");
+			form["joindate"].focus();
+			return false;
+		}
+		if (form["grade"].value.trim() === "") {
+			alert("고객등급이 입력되지 않았습니다.");
+			form["grade"].focus();
+			return false;
+		}
+		if (form["city"].value.trim() === "") {
+			alert("도시코드가 입력되지 않았습니다.");
+			form["city"].focus();
+			return false;
+		}
+
+		alert('회원등록이 완료되었습니다.');
+		return true;
 	}
 </script>
+
 </head>
 <body>
 	<%
