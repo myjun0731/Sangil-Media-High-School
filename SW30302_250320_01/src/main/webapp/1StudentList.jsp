@@ -18,7 +18,7 @@
 	%>
 
 	<jsp:include page="Header.jsp"></jsp:include>
-	<h2 style="text-align: center;">학생조회</h2>
+	<h2 style="text-align: center; padding: 40px;">학생조회</h2>
 	<section style="justify-content: center; display: flex;">
 		<table border="1" style="text-align: center;">
 			<tr>

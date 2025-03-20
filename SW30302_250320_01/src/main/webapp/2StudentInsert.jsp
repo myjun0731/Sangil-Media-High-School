@@ -9,7 +9,7 @@
 </head>
 <body>
 	<jsp:include page="Header.jsp"></jsp:include>
-	<h2 style="text-align: center;">切积己利殿废</h2>
+	<h2 style="text-align: center; padding: 40px;">切积己利殿废</h2>
 	<section style="justify-content: center; display: flex;">
 		<form action="2StudentInsert_detail.jsp">
 			<table border="1" style="text-align: center;">
