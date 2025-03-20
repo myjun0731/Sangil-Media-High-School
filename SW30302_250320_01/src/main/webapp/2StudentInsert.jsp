@@ -11,7 +11,8 @@
 	<jsp:include page="Header.jsp"></jsp:include>
 	<h2 style="text-align: center; padding: 40px;">학생성적등록</h2>
 	<section style="justify-content: center; display: flex;">
-		<form action="2StudentInsert_detail.jsp">
+		<form action="2StudentInsert_detail.jsp" name="form"
+			onsubmit="yhs(); return false;">
 			<table border="1" style="text-align: center;">
 				<tr>
 					<td>학번</td>
@@ -40,5 +41,37 @@
 			</table>
 		</form>
 	</section>
+	<script type="text/javascript">
+		function yhs() {
+			var f = document.forms["form"];
+
+			if (f["id"].value === "") {
+				alert("학번이 입력되지 않았습니다.");
+				f["id"].focus();
+				return false;
+			}
+			if (f["korean"].value === "") {
+				alert("국어점수가 입력되지 않았습니다.");
+				f["korean"].focus();
+				return false;
+			}
+			if (f["math"].value === "") {
+				alert("수학점수가 입력되지 않았습니다.");
+				f["math"].focus();
+				return false;
+			}
+			if (f["english"].value === "") {
+				alert("영어점수가 입력되지 않았습니다.");
+				f["english"].focus();
+				return false;
+			}
+			if (f["history"].value === "") {
+				alert("역사 점수가 입력되지 않았습니다.");
+				f["history"].focus();
+				return false;
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>
