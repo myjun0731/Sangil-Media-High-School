@@ -1,0 +1,545 @@
+create table tbl_book_01(
+bcode varchar2(10) not null primary key,
+bname varchar2(50),
+price number(10)
+);
+
+create table tbl_branch_01(
+brcode varchar2(10) not null primary key,
+brname varchar2(30)
+);
+
+create table tbl_sales_01(
+saleno number(10) not null primary key,
+bcode varchar2(10) not null,
+brcode varchar2(10) not null,
+saledate date,
+quantity number(10)
+);
+
+insert into tbl_book_01 values('b001','자바의 정석',30000);
+insert into tbl_book_01 values('b002','파이썬 100제',25000);
+insert into tbl_book_01 values('b003','sql 첫걸음',22000);
+insert into tbl_book_01 values('b004','자료구조',27000);
+
+insert into tbl_branch_01 values('br01','강남지점');
+insert into tbl_branch_01 values('br02','산촌지점');
+insert into tbl_branch_01 values('br03','부산지점');
+
+insert into tbl_sales_01 values('1','b001','br01','20240301','5');
+insert into tbl_sales_01 values('2','b002','br01','20240301','3');
+insert into tbl_sales_01 values('3','b003','br02','20240302','7');
+insert into tbl_sales_01 values('4','b004','br03','20240303','2');
+insert into tbl_sales_01 values('5','b001','br03','20240304','6');
+
+select br.brname, sum(bo.price*sa.quantity)
+from tbl_book_01 bo, tbl_branch_01 br, tbl_sales_01 sa
+where sa.bcode = bo.bcode and sa.brcode = br.brcode
+group by br.brname;
+
+select bo.bname, sum(sa.quantity)
+from tbl_sales_01 sa, tbl_book_01 bo
+where sa.bcode = bo.bcode and bo.bname = '자바의 정석'
+group by bo.bname;
+
+create table tbl_member_01(
+mid varchar2(10) primary key,
+mname varchar2(30),
+age number(3)
+);
+
+create table tbl_program_01(
+pid varchar2(10) primary key,
+pname varchar2(30),
+fee number(10)
+);
+
+create table tbl_usage_01(
+uid2 number(10) primary key,
+mid varchar2(10),
+pid varchar2(10),
+udate date
+);
+
+insert into tbl_member_01 values('m001','홍길동',28);
+insert into tbl_member_01 values('m002','김영희',35);
+insert into tbl_member_01 values('m003','이철수',42);
+
+insert into tbl_program_01 values('p001','요가',80000);
+insert into tbl_program_01 values('p002','헬스',60000);
+insert into tbl_program_01 values('p003','필라체스',90000);
+
+insert into tbl_usage_01 values(1,'m001','p001','20240301');
+insert into tbl_usage_01 values(2,'m002','p002','20240301');
+insert into tbl_usage_01 values(3,'m001','p003','20240302');
+
+select p.pname, count(m.mid)
+from tbl_usage_01 u, tbl_program_01 p, tbl_member_01 m
+where u.mid = m.mid and u.pid = p.pid
+group by p.pname;
+
+select m.mname, p.fee*count(m.mid)
+from tbl_program_01 p, tbl_member_01 m, tbl_usage_01 u
+where u.mid = m.mid and u.pid = p.pid
+group by m.mname, p.fee, u.mid;
+
+create table tbl_employee_01 (
+empno number(10) not null primary key,
+ename varchar2(20) not null,
+dept varchar2(20),
+sal number(10)
+);
+
+insert into tbl_employee_01 values (1001, '홍길동', '총무부', 3000);
+insert into tbl_employee_01 values (1002, '이순신', '영업부', 3200);
+insert into tbl_employee_01 values (1003, '강감찬', '개발부', 4000);
+insert into tbl_employee_01 values (1004, '유관순', '총무부', 2800);
+insert into tbl_employee_01 values (1005, '김유신', '영업부', 3500);
+
+select ename, sal
+from tbl_employee_01
+where dept = '영업부';
+
+create table tbl_customer_01 (
+cid varchar2(10) primary key,
+cname varchar2(30),
+phone varchar2(20)
+);
+
+insert into tbl_customer_01 (cid, cname, phone) values ('c001', '홍길동', '010-1111-1111');
+insert into tbl_customer_01 (cid, cname, phone) values ('c002', '이순신', '010-2222-2222');
+insert into tbl_customer_01 (cid, cname, phone) values ('c003', '유관순', '010-3333-3333');
+
+create table tbl_order_01 (
+oid number(10) primary key,
+cid varchar2(10) not null,
+odate date,
+amount number(10),
+foreign key (cid) references tbl_customer_01(cid)
+);
+
+insert into tbl_order_01 values (1, 'c001', to_date('2024-03-01', 'yyyy-mm-dd'), 120000);
+insert into tbl_order_01 values (2, 'c002', to_date('2024-03-01', 'yyyy-mm-dd'), 98000);
+insert into tbl_order_01 values (3, 'c001', to_date('2024-03-02', 'yyyy-mm-dd'), 145000);
+insert into tbl_order_01 values (4, 'c003', to_date('2024-03-03', 'yyyy-mm-dd'), 60000);
+
+select c.cname, o.odate, o.amount
+from tbl_customer_01 c, tbl_order_01 o
+where c.cid = o.cid
+group by o.oid, c.cid, c.cname, o.odate, o.amount
+order by o.oid;
+
+create table tbl_movie_01 (
+mcode varchar2(10) primary key,
+mname varchar2(50) not null,
+price number(10)
+);
+
+insert into tbl_movie_01 values ('m001', '파묘', 12000);
+insert into tbl_movie_01 values ('m002', '웡카', 11000);
+insert into tbl_movie_01 values ('m003', '서울의 봄', 13000);
+
+create table tbl_theater_01 (
+tcode varchar2(10) primary key,
+tname varchar2(50)
+);
+
+insert into tbl_theater_01 values ('t001', '강남 cgv');
+insert into tbl_theater_01 values ('t002', '홍대 롯데시네마');
+insert into tbl_theater_01 values ('t003', '신촌 메가박스');
+
+create table tbl_reserve_01 (
+rid number(10) primary key,
+mcode varchar2(10) not null,
+tcode varchar2(10) not null,
+rdate date,
+cnt number(10),
+foreign key (mcode) references tbl_movie_01(mcode),
+foreign key (tcode) references tbl_theater_01(tcode)
+);
+
+insert into tbl_reserve_01 values (1, 'm001', 't001', to_date('2024-03-01', 'yyyy-mm-dd'), 3);
+insert into tbl_reserve_01 values (2, 'm002', 't002', to_date('2024-03-01', 'yyyy-mm-dd'), 2);
+insert into tbl_reserve_01 values (3, 'm001', 't001', to_date('2024-03-02', 'yyyy-mm-dd'), 4);
+insert into tbl_reserve_01 values (4, 'm003', 't003', to_date('2024-03-02', 'yyyy-mm-dd'), 5);
+insert into tbl_reserve_01 values (5, 'm002', 't001', to_date('2024-03-03', 'yyyy-mm-dd'), 3);
+
+select t.tname, m.mname, sum(r.cnt) as 총인원수, sum(r.cnt * m.price) as 총매출액
+from tbl_reserve_01 r
+join tbl_movie_01 m on r.mcode = m.mcode
+join tbl_theater_01 t on r.tcode = t.tcode
+group by t.tname, m.mname;
+
+create table tbl_book_02(
+bcode varchar2(10) not null primary key,
+bname varchar2(50),
+price number(10)
+);
+
+create table tbl_member_02(
+mid varchar2(10) primary key,
+mname varchar2(30)
+);
+
+create table tbl_rent_02(
+rid number(10) not null primary key,
+bcode varchar2(10),
+mid varchar2(10),
+rdate date
+);
+
+insert into tbl_book_02 values('b001','자바의 정석',3000);
+insert into tbl_book_02 values('b002','파이썬 완벽 가이드',3500);
+insert into tbl_book_02 values('b003','sql 첫걸음',2800);
+insert into tbl_book_02 values('b004','데이터베이스 개론',4000);
+
+insert into tbl_member_02 values('m001','홍길동');
+insert into tbl_member_02 values('m002','이순신');
+insert into tbl_member_02 values('m003','유관순');
+
+insert into tbl_rent_02 values(1,'b001','m001','2024-03-01');
+insert into tbl_rent_02 values(2,'b002','m002','2024-03-01');
+insert into tbl_rent_02 values(3,'b003','m001','2024-03-02');
+insert into tbl_rent_02 values(4,'b001','m002','2024-03-03');
+insert into tbl_rent_02 values(5,'b004','m003','2024-03-03');
+insert into tbl_rent_02 values(6,'b003','m003','2024-03-04');
+
+
+select m.mname, b.bname, r.rdate
+from tbl_book_02 b, tbl_member_02 m, tbl_rent_02 r
+where b.bcode = r.bcode and r.mid = m.mid
+group by m.mname, b.bname, r.rdate
+order by r.rdate;
+
+select b.bname, count(r.bcode)
+from tbl_book_02 b, tbl_member_02 m, tbl_rent_02 r
+where b.bcode = r.bcode and r.mid = m.mid
+group by b.bname, r.bcode
+order by r.bcode;
+
+select m.mname, sum(b.price)
+from tbl_book_02 b, tbl_member_02 m, tbl_rent_02 r
+where b.bcode = r.bcode and r.mid = m.mid
+group by m.mname
+order by sum(b.price);
+
+select b.bname, count(r.bcode)
+from tbl_book_02 b, tbl_member_02 m, tbl_rent_02 r
+where b.bcode = r.bcode and r.mid = m.mid
+group by b.bname, r.bcode
+
+create table tbl_customer_02 (
+cid varchar2(10) not null primary key,
+cname varchar2(30),
+city varchar2(20)
+);
+
+create table tbl_product_02(
+pid varchar2(10) not null primary key,
+pname varchar2(50),
+price number(10)
+);
+
+create table tbl_order_02(
+oid number(10) not null primary key,
+cid varchar2(10) not null,
+pid varchar2(10) not null,
+odate date,
+qty number(10)
+);
+
+insert into tbl_customer_02 values('c001','홍길동','서울');
+insert into tbl_customer_02 values('c002','이순신','부산');
+insert into tbl_customer_02 values('c003','강감찬','대전');
+insert into tbl_customer_02 values('c004','유관순','서울');
+
+insert into tbl_product_02 values('p001','무선 마우스',25000);
+insert into tbl_product_02 values('p002','블루투스 키보드',45000);
+insert into tbl_product_02 values('p003','무선 USB 메모리',12000);
+insert into tbl_product_02 values('p004','게이밍 헤드셋',55000);
+
+insert into tbl_order_02 values(1,'c001','p001','202403-01',2);
+insert into tbl_order_02 values(2,'c002','p002','202403-01',1);
+insert into tbl_order_02 values(3,'c001','p003','202403-02',3);
+insert into tbl_order_02 values(4,'c003','p004','202403-02',2);
+insert into tbl_order_02 values(5,'c004','p002','202403-03',1);
+insert into tbl_order_02 values(6,'c004','p001','202403-04',2);
+insert into tbl_order_02 values(7,'c002','p003','202403-05',5);
+
+
+select c.cname, p.pname, o.odate, (p.price*o.qty)
+from tbl_product_02 p, tbl_order_02 o, tbl_customer_02 c
+where p.pid = o.pid and o.cid = c.cid
+group by c.cname, p.pname, o.odate, (p.price*o.qty)
+order by o.odate;
+
+select c.cname, sum(p.price*o.qty)
+from tbl_product_02 p, tbl_order_02 o, tbl_customer_02 c
+where p.pid = o.pid and o.cid = c.cid
+group by c.cname;
+
+select c.city, sum(p.price*o.qty)
+from tbl_product_02 p, tbl_order_02 o, tbl_customer_02 c
+where p.pid = o.pid and o.cid = c.cid
+group by c.city;
+
+drop table tbl_sales_01;
+drop table tbl_branch_01;
+drop table tbl_book_01;
+
+drop table tbl_usage_01;
+drop table tbl_program_01;
+drop table tbl_member_01;
+
+drop table tbl_employee_01;
+
+drop table tbl_order_01;
+drop table tbl_customer_01;
+
+drop table tbl_reserve_01;
+drop table tbl_theater_01;
+drop table tbl_movie_01;
+
+
+drop table tbl_rent_02;
+drop table tbl_member_02;
+drop table tbl_book_02;
+
+
+drop table tbl_customer_02;
+drop table tbl_product_02;
+drop table tbl_order_02;
+
+create table tbl_student_03(
+sid varchar2(10) not null primary key,
+sname varchar2(30),
+level2 varchar2(10)
+);
+
+create table tbl_course_03 (
+cid varchar2(10) not null primary key,
+cname varchar2(50),
+category varchar2(30),
+fee number(10)
+);
+
+create table tbl_enroll_03 (
+eid number(10) not null primary key,
+sid varchar2(10) not null,
+cid varchar2(10) not null,
+edate date
+);
+
+insert into tbl_student_03 values('s001','홍길동','초급');
+insert into tbl_student_03 values('s002','이순신','중급');
+insert into tbl_student_03 values('s003','유관순','고급');
+insert into tbl_student_03 values('s004','강감찬','중급');
+
+
+insert into tbl_course_03 values('c001','Python 기초','프로그래밍','50000');
+insert into tbl_course_03 values('c002','SQL 실무','데이터베이스','60000');
+insert into tbl_course_03 values('c003','딥러닝 입문','AI','70000');
+insert into tbl_course_03 values('c004','데이터 시각화','분석','55000');
+
+insert into tbl_enroll_03 values(1,'s001','c001','2024-03-01');
+insert into tbl_enroll_03 values(2,'s002','c002','2024-03-01');
+insert into tbl_enroll_03 values(3,'s003','c003','2024-03-02');
+insert into tbl_enroll_03 values(4,'s001','c002','2024-03-02');
+insert into tbl_enroll_03 values(5,'s004','c004','2024-03-03');
+insert into tbl_enroll_03 values(6,'s002','c001','2024-03-04');
+insert into tbl_enroll_03 values(7,'s003','c002','2024-03-04');
+
+select st.sname, c.cname, en.edate, c.fee
+from tbl_student_03 st, tbl_course_03 c, tbl_enroll_03 en
+where en.sid = st.sid and en.cid = c.cid
+group by st.sname, c.cname, en.edate, c.fee;
+
+select st.sname, sum(c.fee)
+from tbl_student_03 st, tbl_course_03 c, tbl_enroll_03 en
+where en.sid = st.sid and en.cid = c.cid
+group by st.sname
+order by sum(c.fee) DESC;
+
+select st.sname, c.cname, en.edate
+from tbl_student_03 st, tbl_course_03 c, tbl_enroll_03 en
+where en.sid = st.sid and en.cid = c.cid and en.edate > '2024-03-02'
+group by st.sname, c.cname, en.edate
+order by en.edate;
+
+
+select c.category, count(c.cid)
+from tbl_student_03 st, tbl_course_03 c, tbl_enroll_03 en
+where en.sid = st.sid and en.cid = c.cid
+group by c.category, c.cid
+having count(c.cid) >= 2;
+
+create table tbl_employee_04 (
+    eid varchar2(10) not null primary key,
+    ename varchar2(30),
+    deptid varchar2(10),
+    sal number(10)
+);
+
+create table tbl_dept_04 (
+    deptid varchar2(10) not null primary key,
+    dname varchar2(30)
+);
+
+create table tbl_eval_04 (
+    evid number(10) not null primary key,
+    eid varchar2(10) not null,
+    eval_score number(10),
+    eval_date date
+);
+
+create table tbl_training_04 (
+    tid number(10) not null primary key,
+    eid varchar2(10) not null,
+    tname varchar2(50),
+    tdate date
+);
+
+
+insert into tbl_employee_04 values('e001','홍길동','d01',3200);
+insert into tbl_employee_04 values('e002','이순신','d01',3700);
+insert into tbl_employee_04 values('e003','유관순','d02',4000);
+insert into tbl_employee_04 values('e004','강감찬','d03',3500);
+insert into tbl_employee_04 values('e005','김유신','d02',3900);
+
+insert into tbl_dept_04 values('d01','총무팀');
+insert into tbl_dept_04 values('d02','개발팀');
+insert into tbl_dept_04 values('d03','영업팀');
+
+insert into tbl_eval_04 values(1,'e001','80','2024-01-01');
+insert into tbl_eval_04 values(2,'e002','85','2024-01-01');
+insert into tbl_eval_04 values(3,'e003','90','2024-01-01');
+insert into tbl_eval_04 values(4,'e004','75','2024-01-01');
+insert into tbl_eval_04 values(5,'e005','88','2024-01-01');
+insert into tbl_eval_04 values(6,'e001','85','2024-03-01');
+insert into tbl_eval_04 values(7,'e002','87','2024-03-01');
+insert into tbl_eval_04 values(8,'e003','92','2024-03-01');
+insert into tbl_eval_04 values(9,'e004','70','2024-03-01');
+insert into tbl_eval_04 values(10,'e005','91','2024-03-01');
+
+insert into tbl_training_04 values(1,'e001','리더십 교육','2024-02-15');
+insert into tbl_training_04 values(2,'e003','AI기초과정','2024-02-20');
+insert into tbl_training_04 values(3,'e005','데이터분석','2024-02-25');
+insert into tbl_training_04 values(4,'e002','커뮤니케이션','2024-01-10');
+
+select em.ename, de.dname, ev.eval_score
+from tbl_employee_04 em, tbl_dept_04 de, tbl_eval_04 ev
+where em.eid = ev.eid and em.deptid = de.deptid and ev.eval_date > '20240101'
+group by em.ename, de.dname, ev.eval_score;
+
+select de.dname, sum(ev.eval_score) / count(*)
+from tbl_employee_04 em, tbl_dept_04 de, tbl_eval_04 ev
+where em.eid = ev.eid and em.deptid = de.deptid and ev.eval_date = '20240301'
+group by de.dname;
+
+select em.ename, tr.tname
+from tbl_employee_04 em, tbl_dept_04 de, tbl_eval_04 ev, tbl_training_04 tr
+where em.eid = ev.eid and em.deptid = de.deptid and ev.eval_date = '20240301' and tr.eid = em.eid and ev.eval_score >= 90
+group by em.ename, tr.tname;
+
+select de.dname, sum(ev.eval_score) / count(*)
+from tbl_employee_04 em, tbl_dept_04 de, tbl_eval_04 ev
+where em.eid = ev.eid and em.deptid = de.deptid
+group by de.dname
+having sum(ev.eval_score) / count(*) > 84.3;
+
+
+-- 환자 테이블 생성
+create table tbl_patient_05 (
+    pid varchar2(10) primary key,
+    pname varchar2(30),
+    gender varchar2(1),
+    birth date
+);
+
+-- 의사 테이블 생성
+create table tbl_doctor_05 (
+did varchar2(10) not null primary key,
+dname varchar2(30),
+dept varchar2(30)
+);
+
+-- 진료 테이블 생성
+create table tbl_treatment_05 (
+tid number(10) not null primary key,
+pid varchar2(10),
+did varchar2(10),
+tdate date,
+disease varchar2(50)
+);
+
+-- 결제 테이블 생성
+create table tbl_payment_05 (
+payid number(10) not null primary key,
+tid number(10),
+amount number(10),
+paydate date
+);
+
+-- 검사 테이블 생성
+create table tbl_exam_05 (
+eid number(10) not null primary key,
+tid number(10),
+etype varchar2(50),
+result varchar2(100)
+);
+
+insert into tbl_patient_05 values ('P001', '홍길동', 'M', to_date('1985-01-01', 'YYYY-MM-DD'));
+insert into tbl_patient_05 values ('P002', '이순신', 'M', to_date('1978-04-15', 'YYYY-MM-DD'));
+insert into tbl_patient_05 values ('P003', '유관순', 'F', to_date('1990-07-20', 'YYYY-MM-DD'));
+insert into tbl_patient_05 values ('P004', '강감찬', 'M', to_date('1982-11-11', 'YYYY-MM-DD'));
+
+insert into tbl_doctor_05 values ('D001', '조의사', '내과');
+insert into tbl_doctor_05 values ('D002', '김의사', '정형외과');
+insert into tbl_doctor_05 values ('D003', '박의사', '피부과');
+
+insert into tbl_treatment_05 values (1, 'P001', 'D001', to_date('2024-03-01', 'YYYY-MM-DD'), '감기');
+insert into tbl_treatment_05 values (2, 'P002', 'D002', to_date('2024-03-01', 'YYYY-MM-DD'), '허리 통증');
+insert into tbl_treatment_05 values (3, 'P003', 'D001', to_date('2024-03-02', 'YYYY-MM-DD'), '장염');
+insert into tbl_treatment_05 values (4, 'P001', 'D003', to_date('2024-03-03', 'YYYY-MM-DD'), '피부염');
+insert into tbl_treatment_05 values (5, 'P004', 'D001', to_date('2024-03-04', 'YYYY-MM-DD'), '고혈압');
+
+insert into tbl_payment_05 values (1, 1, 20000, to_date('2024-03-01', 'YYYY-MM-DD'));
+insert into tbl_payment_05 values (2, 2, 50000, to_date('2024-03-01', 'YYYY-MM-DD'));
+insert into tbl_payment_05 values (3, 3, 30000, to_date('2024-03-02', 'YYYY-MM-DD'));
+insert into tbl_payment_05 values (4, 4, 25000, to_date('2024-03-03', 'YYYY-MM-DD'));
+insert into tbl_payment_05 values (5, 5, 40000, to_date('2024-03-04', 'YYYY-MM-DD'));
+
+insert into tbl_exam_05 values (1, 1, '혈액 검사', '정상');
+insert into tbl_exam_05 values (2, 2, 'X-ray', '요추 협착증');
+insert into tbl_exam_05 values (3, 3, '대변 검사', '바이러스 감염 의심');
+insert into tbl_exam_05 values (4, 5, '혈압 측정', '고혈압');
+
+select p.pname, t.tdate, d.dept, t.disease
+from tbl_patient_05 p
+join tbl_treatment_05 t on p.pid = t.pid
+join tbl_doctor_05 d on t.did = d.did;
+
+select d.dname, count(t.tid) as count_treat, sum(pay.amount) as total_pay
+from tbl_doctor_05 d
+join tbl_treatment_05 t on d.did = t.did
+join tbl_payment_05 pay on t.tid = pay.tid
+group by d.dname;
+
+select p.pname, max(pay.amount) as max_amount
+from tbl_patient_05 p
+join tbl_treatment_05 t on p.pid = t.pid
+join tbl_payment_05 pay on t.tid = pay.tid
+group by p.pname
+having max(pay.amount) = (select max(amount) from tbl_payment_05);
+
+select p.pname, e.etype, e.result
+from tbl_patient_05 p
+join tbl_treatment_05 t on p.pid = t.pid
+join tbl_exam_05 e on t.tid = e.tid
+where t.disease = '고혈압';
+
+select decode(p.gender, 'M', '남', 'F', '여') as gender, avg(pay.amount) as avg_amount
+from tbl_patient_05 p
+join tbl_treatment_05 t on p.pid = t.pid
+join tbl_payment_05 pay on t.tid = pay.tid
+group by p.gender;
