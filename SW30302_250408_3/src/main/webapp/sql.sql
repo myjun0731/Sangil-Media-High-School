@@ -48,11 +48,15 @@ insert into tbl_vaccresv_202109 values('20210008', '700101-2000008', 'V003', 'H0
 insert into tbl_vaccresv_202109 values('20210009', '700101-1000009', 'V003', 'H003', '20210904', '1730');
 insert into tbl_vaccresv_202109 values('20210010', '700101-2000010', 'V003', 'H001', '20210904', '1830');
 
-select ho.hospcode, ho.hospname, count(ho.hospname)
-from tbl_hosp_202109 ho, tbl_vaccresv_202109 va, tbl_jumin_201809 ju
-where ju.jumin = va.jumin and va.hospcode = ho.hospcode
-group by ho.hospname, va.jumin,ho.hospcode;
+--3Price.jsp
+select ho.hospcode, ho.hospname, count(ho.hospcode)
+from tbl_hosp_202109 ho, tbl_vaccresv_202109 va
+where va.hospcode = ho.hospcode
+group by ho.hospcode, ho.hospname
+order by ho.hospcode;
 
+--2Insert_List_DT.jsp
 select ju.pname, ju.jumin, decode(substr(ju.jumin, 8,1), '1', '남', '2', '여'), tel,resvdate, va.resvtime, ho.hospname, ho.hosptel, ju.address, decode(va.vcode, 'V001', 'A백신', 'V002','B백신','V003','C백신')
 from tbl_hosp_202109 ho, tbl_vaccresv_202109 va, tbl_jumin_201809 ju
 where ju.jumin = va.jumin and va.hospcode = ho.hospcode;
+

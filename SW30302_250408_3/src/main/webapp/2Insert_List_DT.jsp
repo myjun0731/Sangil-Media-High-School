@@ -26,7 +26,10 @@
 	rs = pstmt.executeQuery();
 	rs.next();
 	if (va == 1) {
-		String Date = rs.getString(5).substring(0, 4) + "년" + rs.getString(5).substring(4, 6) + "월"+ rs.getString(5).substring(6,8)+"일";
+		String Date = rs.getString(5).substring(0, 4) + "년" + rs.getString(5).substring(4, 6) + "월"
+		+ rs.getString(5).substring(6, 8) + "일";
+
+		String Time = rs.getString(6).substring(0, 2) + ":" + rs.getString(5).substring(3, 5);
 	%>
 	<h2 style="text-align: center; padding: 20px;">
 		예약번호 :
@@ -54,7 +57,7 @@
 					<td><%=rs.getString(3)%></td>
 					<td><%=rs.getString(4)%></td>
 					<td><%=Date%></td>
-					<td><%=rs.getString(5)%></td>
+					<td><%=Time%></td>
 					<td><%=rs.getString(7)%></td>
 					<td><%=rs.getString(8)%></td>
 					<td><%=rs.getString(9)%></td>

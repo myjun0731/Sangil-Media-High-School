@@ -13,7 +13,8 @@
 	Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 	ResultSet rs;
 
-	String sql = "";
+	String sql = "select ho.hospcode, ho.hospname, count(ho.hospcode) " + "from tbl_hosp_202109 ho, tbl_vaccresv_202109 va "
+			+ "where va.hospcode = ho.hospcode " + "group by ho.hospcode, ho.hospname " + "order by ho.hospcode";
 	rs = conn.prepareStatement(sql).executeQuery();
 
 	rs.next();
@@ -31,17 +32,15 @@
 			while (rs.next()) {
 			%>
 			<tr>
-				<td><%=%></td>
-				<td><%=%></td>
-				<td><%=%></td>
+				<td><%=rs.getString(1)%></td>
+				<td><%=rs.getString(2)%></td>
+				<td><%=rs.getString(3)%></td>
 			</tr>
 			<%
 			}
 			%>
 			<tr>
-				<td>
-				
-				</td>
+				<td></td>
 			</tr>
 		</table>
 	</section>
