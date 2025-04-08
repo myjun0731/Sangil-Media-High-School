@@ -28,5 +28,6 @@
 	pstmt.executeUpdate();
 	response.sendRedirect("2St_Insert.jsp");
 	%>
+	
 </body>
 </html>
