@@ -45,15 +45,16 @@
 			</table>
 		</form>
 	</section>
-
+	
 	<script type="text/javascript">
 		function yhs() {
 			var f = document.forms["form"];
+			
 			if (f.id.value == "") {
 				alert("학번 입력 필요");
 				f.id.focus();
 				return false;
-			} else if (!(f.korean.value.check)) {
+			} else if (!(f.korean.check)) {
 				alert("국어 점수 입력 필요");
 				f.korean.focus();
 				return false;
