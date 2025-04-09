@@ -13,9 +13,16 @@
 	Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 	ResultSet rs;
 
-	String sql = "select ho.hospcode, ho.hospname, count(ho.hospcode) " + "from tbl_hosp_202109 ho, tbl_vaccresv_202109 va "
-			+ "where va.hospcode = ho.hospcode " + "group by ho.hospcode, ho.hospname " + "order by ho.hospcode";
-	rs = conn.prepareStatement(sql).executeQuery();
+	String sql =
+			"select ho.hospcode, ho.hospname, count(ho.hospcode) " +
+			"from tbl_hosp_202109 ho, tbl_vaccresv_202109 va " +
+			"where va.hospcode = ho.hospcode " +
+			"group by ho.hospcode, ho.hospname " +
+			"order by ho.hospcode";
+			
+
+			
+			rs = conn.prepareStatement(sql).executeQuery();
 
 	rs.next();
 	%>
@@ -24,9 +31,9 @@
 	<section style="justify-content: center; display: flex;">
 		<table border="1" style="text-align: center;">
 			<tr>
-				<td>판매일자</td>
-				<td>판매번호</td>
-				<td>점포명</td>
+				<td>병원코드</td>
+				<td>병원명</td>
+				<td>접종건수</td>
 			</tr>
 			<%
 			while (rs.next()) {

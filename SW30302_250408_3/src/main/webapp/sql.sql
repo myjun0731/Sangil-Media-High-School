@@ -1,3 +1,9 @@
+
+drop table tbl_jumin_201809;
+drop table tbl_hosp_202109;
+drop table tbl_vaccresv_202109;
+
+
 create table tbl_jumin_201809(
 jumin char(14) not null primary key,
 pname varchar2(16),
@@ -50,12 +56,6 @@ insert into tbl_vaccresv_202109 values('20210010', '700101-2000010', 'V003', 'H0
 
 --3Price.jsp
 select ho.hospcode, ho.hospname, count(ho.hospcode)
-from tbl_hosp_202109 ho, tbl_vaccresv_202109 va
-where va.hospcode = ho.hospcode
-group by ho.hospcode, ho.hospname
-order by ho.hospcode;
-
-select count(ho.hospcode)
 from tbl_hosp_202109 ho, tbl_vaccresv_202109 va
 where va.hospcode = ho.hospcode
 group by ho.hospcode, ho.hospname

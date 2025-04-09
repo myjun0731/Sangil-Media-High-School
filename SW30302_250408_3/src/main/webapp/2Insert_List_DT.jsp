@@ -21,7 +21,7 @@
 			+ "where ju.jumin = va.jumin and va.hospcode = ho.hospcode and va.resvno = ?";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, resvno);
-
+	
 	va = pstmt.executeUpdate();
 	rs = pstmt.executeQuery();
 	rs.next();
@@ -66,7 +66,11 @@
 			</table>
 			<div style="text-align: center;">
 				<input type="button" value="돌아가기"
-					onclick="location.href='2Insert_List.jsp'">
+					onclick="location.href='2Insert_List.jsp'"> <input
+					type="button" value="내역삭제"
+					onclick="location.href='2Insert_List_DT_Delete.jsp?resvno=<%=resvno%>'">
+				<input type="button" value="내역수정"
+					onclick="location.href='2Insert_List_DT_Update.jsp?resvno=<%=resvno%>'">
 			</div>
 		</form>
 	</section>
