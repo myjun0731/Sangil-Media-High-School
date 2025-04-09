@@ -12,6 +12,7 @@
 	Class.forName("oracle.jdbc.OracleDriver");
 	Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 	ResultSet rs;
+	ResultSet rs2;
 
 	String sql =
 			"select ho.hospcode, ho.hospname, count(ho.hospcode) " +
@@ -23,8 +24,10 @@
 
 			
 			rs = conn.prepareStatement(sql).executeQuery();
-
-	rs.next();
+			
+			String sql2 = "select count(hospcode) from tbl_vaccresv_202109";
+			rs2 = conn.prepareStatement(sql2).executeQuery();
+	rs2.next();
 	%>
 	<jsp:include page="Header.jsp"></jsp:include>
 	<h2 style="text-align: center; padding: 20px;">접종인원통계</h2>
@@ -48,6 +51,8 @@
 			%>
 			<tr>
 				<td></td>
+				<td>총건수</td>
+				<td><%=rs2.getString(1) %></td>
 			</tr>
 		</table>
 	</section>

@@ -65,4 +65,3 @@ order by ho.hospcode;
 select ju.pname, ju.jumin, decode(substr(ju.jumin, 8,1), '1', '남', '2', '여'), tel,resvdate, va.resvtime, ho.hospname, ho.hosptel, ju.address, decode(va.vcode, 'V001', 'A백신', 'V002','B백신','V003','C백신')
 from tbl_hosp_202109 ho, tbl_vaccresv_202109 va, tbl_jumin_201809 ju
 where ju.jumin = va.jumin and va.hospcode = ho.hospcode;
-
