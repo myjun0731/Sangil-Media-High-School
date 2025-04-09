@@ -9,27 +9,27 @@
 </head>
 <body>
 	<%
-	Class.forName("oracle.jdbc.OracleDriver");
-	Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
-	ResultSet rs;
-	String resvno = request.getParameter("resvno");
-	String sql = "select * FROM tbl_vaccresv_202109 WHERE resvno = ?";
-			
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, resvno);
-			rs = pstmt.executeQuery();
-	rs.next();
-	%>
+Class.forName("oracle.jdbc.OracleDriver");
+Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
+
+String resvno = request.getParameter("resvno");
+String sql = "select * FROM tbl_vaccresv_202109 WHERE resvno = ?";
+
+PreparedStatement pstmt = conn.prepareStatement(sql);
+pstmt.setString(1, resvno);
+
+ResultSet rs = pstmt.executeQuery();
+rs.next();
+%>
 	<jsp:include page="Header.jsp"></jsp:include>
 	<h2 style="text-align: center; padding: 20px;">백신접종예약</h2>
 	<section style="justify-content: center; display: flex;">
-		<form action="1Insert_Detail.jsp" name="form">
+		<form action="2Insert_List_DT_Ch.jsp" name="form">
 			<table border="1" style="text-align: center;">
 				<tr>
 					<td>접종예약번호</td>
 					<td><input type="text" name="resvno"
-						value="<%=rs.getString("resvno")%>">예) 20210001</td>
+						value="<%=rs.getString("resvno")%>" readonly>예) 20210001</td>
 				</tr>
 				<tr>
 					<td>주민번호</td>
