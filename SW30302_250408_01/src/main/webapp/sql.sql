@@ -45,23 +45,27 @@ insert into store_tbl_007 values('A005','명동길점','1','20190201');
 insert into store_tbl_007 values('A006','충무로역점','1','20190301');
 
 CREATE TABLE sale_tbl_003(
-sale_ymd varchar2(8) not null PRIMARY KEY,
-sale_no varchar2(4),
-store_cd varchar2(3),
+sale_ymd varchar2(8) not null,
+sale_no varchar2(4)not null,
+store_cd varchar2(4),
 menu_cd varchar2(5),
 size_cd varchar2(2),
 sale_cnt number(3),
-pay_type varchar2(2)
+pay_type varchar2(2),
+PRIMARY KEY(sale_ymd,sale_no),
+foreign key (store_cd) references store_tbl_007(store_cd),
+foreign key (menu_cd) references menu_tbl_007(menu_cd),
+foreign key (size_cd) references size_tbl_007(size_cd)
 );
 
-insert into sale_tbl_003 values('20190429','0001','01','A001','10001','T1','4','02');
-insert into sale_tbl_003 values('20190429','0002','01','A004','10002','S1','1','02');
-insert into sale_tbl_003 values('20190429','0003','02','A004','10006','S1','1','02');
-insert into sale_tbl_003 values('20190429','0004','01','A002','10006','T1','1','01');
-insert into sale_tbl_003 values('20190429','0005','01','A005','10001','G1','1','01');
-insert into sale_tbl_003 values('20190429','0006','02','A005','10003','S1','2','02');
-insert into sale_tbl_003 values('20190429','0007','01','A003','10002','T1','3','02');
-insert into sale_tbl_003 values('20190429','0008','01','A006','10001','S1','4','02');
+insert into sale_tbl_003 values('20190429','0001','A001','10001','T1','4','02');
+insert into sale_tbl_003 values('20190429','0002','A004','10002','S1','1','02');
+insert into sale_tbl_003 values('20190429','0003','A004','10006','S1','1','02');
+insert into sale_tbl_003 values('20190429','0004','A002','10006','T1','1','01');
+insert into sale_tbl_003 values('20190429','0005','A005','10001','G1','1','01');
+insert into sale_tbl_003 values('20190429','0006','A005','10003','S1','2','02');
+insert into sale_tbl_003 values('20190429','0007','A003','10002','T1','3','02');
+insert into sale_tbl_003 values('20190429','0008','A006','10001','S1','4','02');
 
 drop table menu_tbl_007;
 drop table size_tbl_007;
