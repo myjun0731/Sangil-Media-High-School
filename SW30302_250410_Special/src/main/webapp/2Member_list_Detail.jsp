@@ -13,16 +13,6 @@
 
 	<%
 	String custnoParam = request.getParameter("custno");
-	if (custnoParam == null) {
-	%>
-	<section>
-		<h1>잘못된 접근입니다.</h1>
-		<input type="button" value="돌아가기" onclick="location.href='05List.jsp'">
-	</section>
-	<%
-	return;
-	}
-	
 	int custno = Integer.parseInt(custnoParam);
 	Class.forName("oracle.jdbc.OracleDriver");
 	Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
