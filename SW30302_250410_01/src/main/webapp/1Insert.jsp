@@ -110,6 +110,7 @@ text-align: center;
 				f.agency.focus();
 				return false;
 			} else {
+				alert("등록 완료!");
 				f.submit();
 			}
 		}
