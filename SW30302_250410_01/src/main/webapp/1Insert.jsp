@@ -54,7 +54,7 @@ table th {
 				</tr>
 				<tr>
 					<th colspan="2"><input type="button" value="오디션 등록"
-						onclick="yhs();"> <input type="reset" value="다시쓰기">
+						onclick="yhs();"> <input type="reset" value="다시쓰기" onclick="alert('다시 입력합니다?')">
 					</th>
 				</tr>
 			</table>
