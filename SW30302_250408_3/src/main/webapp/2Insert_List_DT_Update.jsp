@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
@@ -22,7 +22,7 @@ ResultSet rs = pstmt.executeQuery();
 rs.next();
 %>
 	<jsp:include page="Header.jsp"></jsp:include>
-	<h2 style="text-align: center; padding: 20px;">백신접종예약</h2>
+	<h2 style="text-align: center; padding: 20px;">백신접종예약(수정)</h2>
 	<section style="justify-content: center; display: flex;">
 		<form action="2Insert_List_DT_Ch.jsp" name="form">
 			<table border="1" style="text-align: center;">
@@ -57,7 +57,7 @@ rs.next();
 						value="<%=rs.getString("resvtime")%>">예) 1230</td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="button" value="등록"
+					<td colspan="2"><input type="button" value="수정"
 						onclick="yhs()"> <input type="reset" value="다시쓰기"></td>
 				</tr>
 			</table>
@@ -86,7 +86,7 @@ rs.next();
 				alert("예약시간 입력 필요!");
 				f.resvtime.focus();
 			} else {
-				alert("예약 완료!");
+				alert("수정 완료!");
 				f.submit();
 			}
 		}
