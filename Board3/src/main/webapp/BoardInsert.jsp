@@ -91,7 +91,7 @@ input[type="submit"]:hover, input[type="button"]:hover {
 				<td><textarea name="content" rows="10" required style="resize: none;"></textarea></td>
 			</tr>
 			<tr>
-				<td style="text-align: right;">
+				<td style="text-align: center;" colspan="2">
 					<select name="tag">
 						<option value="0">태그를 선택하세요</option>
 						<option value="1">개발</option>

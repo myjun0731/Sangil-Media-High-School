@@ -35,7 +35,7 @@ body {
 	text-align: left;
 }
 
-h1 {
+.info-container h1 {
 	font-size: 24px;
 	margin-bottom: 20px;
 }
@@ -94,8 +94,9 @@ input[type="button"]:hover {
 
 			비밀번호: <span id="pwMask" style="opacity: 0.5;"><%= maskedPassword %></span>
 			<span id="pwReal" style="opacity: 0.5; display: none;"><%= password %></span>
-
+		<a style="text-align: right;">
 			<button type="button" onclick="togglePassword()">보이기</button>
+		</a>
 		</p>
 			<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
 			<input type="button" value="회원수정" onclick="location.href='UserUpdate.jsp?mid=<%=rs2.getString(1)%>&mpw=<%=rs2.getString(3)%>'">
