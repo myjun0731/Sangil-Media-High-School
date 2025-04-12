@@ -175,41 +175,8 @@ window.addEventListener('DOMContentLoaded', () => {
 %>
 </head>
 <body>
-	<header>
-		<div class="header-inner">
-			<h1>
-				<a href="Board.jsp" style="color: #fff; text-decoration: none;">게시판
-					Ver1.0</a>
-			</h1>
-			<div class="menu-button">
-				<span class="material-symbols-outlined">menu</span>
-			</div>
-		</div>
-		<nav>
-			<h1 style="text-align: center; padding: 10px;">게시판 Ver1.0</h1>
-			<%while(rs.next()){
-				if(rs.getString(4).equals("1")){ %>
-			<ul>
-				<li><a href="Board.jsp">홈</a></li>
-				<li><a href="BoardInsert.jsp">글쓰기</a></li>
-				<li><a href="index.jsp">계정관리</a></li>
-				<li><a href="#">공지사항</a></li>
-			</ul>
-			<%
-			tt = true;
-				}
-			}
-			if(tt == false){
-			%>
-			<ul>
-				<li><a href="Board.jsp">홈</a></li>
-				<li><a href="BoardInsert.jsp">글쓰기</a></li>
-				<li><a href="loginhe.jsp">로그인</a></li>
-				<li><a href="#">공지사항</a></li>
-			</ul>
-			<%} %>
-		</nav>
-	</header>
+
+	<jsp:include page="Header.jsp" />
 
 	<section class="content-section">
 
@@ -230,8 +197,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			<!-- 🌐 분야 선택바 -->
 			<div
 				style="display: flex; justify-content: center; overflow-x: auto; white-space: nowrap; margin-bottom: 30px; padding: 10px 0;">
-				<form action="Board.jsp" method="get"
-					style="display: inline-block;">
+				<form action="Board.jsp" method="get" style="display: inline-block;">
 					<button type="submit" name="tag" value="all"
 						style="display: inline-block; margin-right: 10px; padding: 8px 16px; border: none; border-radius: 20px; background-color: #1f2a40; color: white; cursor: pointer; font-size: 14px;">
 						전체</button>
@@ -274,12 +240,12 @@ window.addEventListener('DOMContentLoaded', () => {
 					</tr>
 				</thead>
 				<tbody>
-						<% 
+					<% 
 							String key = request.getParameter("keyword");
 							
 							String word = "'%"+key+"%'";
 							
-							String sql2 = "select bid, title, mname, bdate, mid from board_tbl where title like "+word;
+							String sql2 = "select bid, title, mname, TO_CHAR(bdate, 'YY-MM-DD'), mid from board_tbl where title like "+word;
 							
 							System.out.println(sql2);
 							
@@ -288,14 +254,14 @@ window.addEventListener('DOMContentLoaded', () => {
 							ResultSet rs2 = pstmt.executeQuery();
 							while(rs2.next()) { %>
 					<tr style="text-align: center; border-bottom: 1px solid #ddd;">
-								<td style="padding: 12px;"><%= rs2.getString(1) %></td>
-								<td style="padding: 12px; text-align: center;">
-								<a href="view.jsp?id=<%= rs2.getString(1) %>&&mid=<%=rs2.getString(5) %>" style="text-decoration: none; color: #2c3e50;"><%= rs2.getString(2) %></a></td>
-								<td style="padding: 12px;"><%= rs2.getString(3) %></td>
-								<td style="padding: 12px;"><%= rs2.getString(4) %></td>
+						<td style="padding: 12px;"><%= rs2.getString(1) %></td>
+						<td style="padding: 12px; text-align: center;"><a
+							href="view.jsp?id=<%= rs2.getString(1) %>&&mid=<%=rs2.getString(5) %>"
+							style="text-decoration: none; color: #2c3e50;"><%= rs2.getString(2) %></a></td>
+						<td style="padding: 12px;"><%= rs2.getString(3) %></td>
+						<td style="padding: 12px;"><%= rs2.getString(4) %></td>
 					</tr>
-							<% } %>
-					<!-- 추가 게시글 -->
+					<% } %>
 				</tbody>
 			</table>
 		</div>

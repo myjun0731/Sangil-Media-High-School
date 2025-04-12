@@ -70,7 +70,7 @@ input[type="button"]:hover {
 
     String id = request.getParameter("id");
 
-    String sql1 = "select mid, title, mname, contents, bdate from board_tbl where bid = '"+id+"'";
+    String sql1 = "select mid, title, mname, contents, TO_CHAR(bdate, 'YY-MM-DD') as bdate from board_tbl where bid = '"+id+"'";
 
     ResultSet rs = con.prepareStatement(sql1).executeQuery();
 

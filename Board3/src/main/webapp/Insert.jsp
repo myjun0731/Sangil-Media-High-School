@@ -122,7 +122,7 @@ td[colspan="2"] input[type="button"] {
 			<tr>
 				<td colspan="2"><input type="button" value="등록"
 					onclick="son();"> <input type="button" value="로그인"
-					onclick="location.href='loginhe.jsp'"></td>
+					onclick="location.href='loginhe.jsp'"> </td>
 			</tr>
 		</table>
 	</form>

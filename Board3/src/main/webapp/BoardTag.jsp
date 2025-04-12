@@ -279,7 +279,7 @@ window.addEventListener('DOMContentLoaded', () => {
 							
 							String word = "'"+tag+"'";
 							
-							String sql2 = "select bid, title, mname, bdate, mid from board_tbl where tag like "+word;
+							String sql2 = "select bid, title, mname, TO_CHAR(bdate, 'YY-MM-DD'), mid from board_tbl where tag like "+word;
 							
 							System.out.println(sql2);
 							

@@ -17,7 +17,7 @@ section {
 	text-align: center;
 }
 
-h1 {
+content-section {
 	font-size: 1.2em;
 	margin-bottom: 0.5em;
 }

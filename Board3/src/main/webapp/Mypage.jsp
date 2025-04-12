@@ -6,9 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>내 정보</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&family=Lato:wght@400;700&display=swap"
-	rel="stylesheet" />
 <style>
 * {
 	margin: 0;
@@ -92,17 +89,18 @@ input[type="button"]:hover {
 		<p>
 			<%
     String password = rs2.getString("mpw");
-    String maskedPassword = "*".repeat(password.length()); // Java 11 이상
+    String maskedPassword = "*".repeat(password.length());
 %>
 
 			비밀번호: <span id="pwMask" style="opacity: 0.5;"><%= maskedPassword %></span>
 			<span id="pwReal" style="opacity: 0.5; display: none;"><%= password %></span>
-			<button type="button" onclick="togglePassword()">보이기</button>
 
+			<button type="button" onclick="togglePassword()">보이기</button>
 		</p>
-		<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
-		<input type="button" value="로그아웃"
-			onclick="location.href='logout.jsp?mid=<%=rs2.getString("mid")%>'">
+			<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
+			<input type="button" value="회원수정" onclick="location.href='UserUpdate.jsp?mid=<%=rs2.getString(1)%>&mpw=<%=rs2.getString(3)%>'">
+			<input type="button" value="회원탈퇴" onclick="location.href='UserDelete.jsp?mid=<%=rs2.getString(1)%>'">
+			<input type="button" value="로그아웃" onclick="location.href='logout.jsp?mid=<%=rs2.getString("mid")%>'">
 	</div>
 	<%
 		tt = true;

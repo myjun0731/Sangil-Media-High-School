@@ -24,7 +24,7 @@
 	
 	String mid = (String)application.getAttribute("mid");
 	
-	String sql = "insert into board_tbl values(?,?,?,to_date(sysdate,'YY-MM-DD'),?,?,?)";
+	String sql = "insert into board_tbl values(?,?,?,to_date(sysdate, 'YYYY-MM-DD HH:MI:SS'),?,?,?)";
 	String sql2 = "select * from member_tbl where mid = '"+mid+"'";
 	
 	PreparedStatement pstmt = con.prepareStatement(sql);
@@ -34,7 +34,7 @@
 	String mname = rs2.getString(2);
 	
 	pstmt.setString(1, Integer.toString(bid));
-	pstmt.setString(2, rs2.getString(2));
+	pstmt.setString(2, mname);
 	pstmt.setString(3, request.getParameter("title"));
 	pstmt.setString(4, request.getParameter("content"));
 	pstmt.setString(5, mid);
