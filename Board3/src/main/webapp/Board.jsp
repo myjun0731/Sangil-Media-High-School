@@ -86,7 +86,7 @@ body {
 						String password = "1234";
 
 						con = DriverManager.getConnection(url, user, password);
-						String sql2 = "SELECT bid, title, mname, TO_CHAR(bdate, 'YY-MM-DD') AS bdate, mid FROM board_tbl ORDER BY bid DESC";
+						String sql2 = "SELECT bid, title, mname, TO_CHAR(bdate, 'YY-MM-DD') AS bdate, mid FROM board_tbl ORDER BY bid";
 						pstmt = con.prepareStatement(sql2);
 						rs2 = pstmt.executeQuery();
 

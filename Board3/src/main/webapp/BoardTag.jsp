@@ -175,42 +175,7 @@ window.addEventListener('DOMContentLoaded', () => {
 %>
 </head>
 <body>
-	<header>
-		<div class="header-inner">
-			<h1>
-				<a href="Board.jsp" style="color: #fff; text-decoration: none;">게시판
-					Ver1.0</a>
-			</h1>
-			<div class="menu-button">
-				<span class="material-symbols-outlined">menu</span>
-			</div>
-		</div>
-		<nav>
-			<h1 style="text-align: center; padding: 10px;">게시판 Ver1.0</h1>
-			<%while(rs.next()){
-				if(rs.getString(4).equals("1")){ %>
-			<ul>
-				<li><a href="Board.jsp">홈</a></li>
-				<li><a href="BoardInsert.jsp">글쓰기</a></li>
-				<li><a href="index.jsp">계정관리</a></li>
-				<li><a href="#">공지사항</a></li>
-			</ul>
-			<%
-			tt = true;
-				}
-			}
-			if(tt == false){
-			%>
-			<ul>
-				<li><a href="Board.jsp">홈</a></li>
-				<li><a href="BoardInsert.jsp">글쓰기</a></li>
-				<li><a href="loginhe.jsp">로그인</a></li>
-				<li><a href="#">공지사항</a></li>
-			</ul>
-			<%} %>
-		</nav>
-	</header>
-
+	<jsp:include page="Header.jsp" />
 	<section class="content-section">
 
 		<div style="padding: 40px; flex: 1;">
