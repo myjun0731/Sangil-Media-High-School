@@ -78,6 +78,7 @@ input[type="submit"]:hover, input[type="button"]:hover {
 </head>
 
 <body>
+	<jsp:include page="Header.jsp" />
 	<form action="BoardInsertConfirm.jsp" name="sibal">
 		<h2 style="text-align: center; padding: 20px 0;">게시글 작성</h2>
 		<table>

@@ -1,39 +1,54 @@
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판 Ver1.0</title>
+<style>
+section {
+	justify-content: center;
+	display: flex;
+	height: auto;
+}
+
+.credit-container {
+	text-align: center;
+}
+
+h1 {
+	font-size: 1.2em;
+	margin-bottom: 0.5em;
+}
+
+hr {
+	width: 15%;
+	margin: 0.5em auto;
+	border-color: #ccc;
+}
+
+b {
+	font-size: 1em;
+}
+</style>
 </head>
 <body>
-<h1 style="text-align: center;">
-	개발 <br>
-	김인혁<br>
-	김유민<br>
-	손예성<br>
-	
-	<br>
-	
-	디자인<br>
-	김명준
-	<br><br>
-	
-	개멋진사람<br>
-	손예성
-	
-	<br><br>
-	
-	개이쁜사람<br>
-	김유민
-	<br><br>
-	
-	개못생긴사람<br>
-	김인혁<br><br>
-	
-	말개더듬는사람<br>
-	김명준
-	
-</h1>
+	<jsp:include page="Header.jsp" />
+	<section class="content-section">
+		<div class="credit-container">
+			<h1 style="padding: 13px 0;">게시판 Ver1.0 : 개발진</h1>
+			<hr style="width: 15%;">
+			<b>김유민<br>손예성<br>김명준<br>김인혁
+			</b>
+			<hr style="width: 5%;">
+			<h1>디자인 : CSS</h1>
+			<b>김명준</b>
+			<hr style="width: 5%;">
+			<h1>백엔드 : SQL & JSP</h1>
+			<b>손예성</b><br> <b>김유민</b><br> <b>김인혁</b>
+			<hr style="width: 5%;">
+		</div>
+	</section>
 </body>
 </html>

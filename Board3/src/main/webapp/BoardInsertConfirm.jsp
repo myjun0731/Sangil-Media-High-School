@@ -24,7 +24,7 @@
 	
 	String mid = (String)application.getAttribute("mid");
 	
-	String sql = "insert into board_tbl values(?,?,?,to_date(sysdate,'YYYY-MM-DD HH24:MI:SS'),?,?,?)";
+	String sql = "insert into board_tbl values(?,?,?,to_date(sysdate,'YY-MM-DD'),?,?,?)";
 	String sql2 = "select * from member_tbl where mid = '"+mid+"'";
 	
 	PreparedStatement pstmt = con.prepareStatement(sql);

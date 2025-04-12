@@ -1,6 +1,4 @@
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -92,6 +90,7 @@ input[type="submit"]:hover, input[type="button"]:hover {
 	rs.next();
 %>
 <body>
+
 	<form action="EditConfirm.jsp" name="sibal">
 		<h2 style="text-align: center; padding: 20px 0;">게시글 수정</h2>
 		<table>
