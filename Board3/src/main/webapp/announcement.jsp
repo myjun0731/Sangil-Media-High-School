@@ -37,7 +37,7 @@ b {
 	<jsp:include page="Header.jsp" />
 	<section class="content-section">
 		<div class="credit-container">
-			<h1 style="padding: 13px 0;">게시판 Ver1.0 : 개발진</h1>
+			<h1 style="padding: 13px 0;">게시판 : 개발진</h1>
 			<hr style="width: 15%;">
 			<b>김유민<br>손예성<br>김명준<br>김인혁
 			</b>

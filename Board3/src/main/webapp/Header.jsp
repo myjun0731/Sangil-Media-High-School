@@ -32,6 +32,7 @@ body {
 	background-color: #dcdde1;
 	min-height: calc(100vh - 80px);
 }
+
 /* HEADER는 고정, 높이 변화 없음 */
 header {
 	background-color: #1f2a40;
@@ -140,6 +141,19 @@ nav ul li a:hover:before, nav ul li a:hover:after {
 nav ul li a:hover {
 	color: #fff;
 }
+
+footer {
+	margin-top: 100px;
+	padding: 20px 0;
+	background-color: #f0f0f0;
+	text-align: center;
+	font-size: 0.9em;
+	color: #555;
+	bottom: 0px;
+	position: fixed;
+	width: 100%;
+	text-align: center;
+}
 </style>
 <script>
 window.addEventListener('DOMContentLoaded', () => {
@@ -176,14 +190,17 @@ ResultSet rs = con.prepareStatement(sql).executeQuery();
 		<div class="header-inner">
 			<h1>
 				<a href="Board.jsp" style="color: #fff; text-decoration: none;">게시판
-					Ver1.0</a>
+					<a style="font-size: 15px;">Beta Version 4.2</a>
+				</a>
 			</h1>
 			<div class="menu-button">
 				<span class="material-symbols-outlined">menu</span>
 			</div>
 		</div>
 		<nav>
-			<h1 style="text-align: center; padding: 10px;">게시판 Ver1.0</h1>
+			<h1 style="text-align: center; padding: 10px;">
+				게시판<br><a style="font-size: 13px;">Beta Version 4.2</a>
+			</h1>
 			<%
             while (rs.next()) {
                 if (rs.getString(4).equals("1")) {
@@ -211,5 +228,12 @@ ResultSet rs = con.prepareStatement(sql).executeQuery();
             %>
 		</nav>
 	</header>
+	<%
+	    int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+	%>
+	<footer>
+		&copy; <%= year %> 게시판 프로그램 | 바보들 All rights reserved.
+	</footer>
+
 </body>
 </html>
