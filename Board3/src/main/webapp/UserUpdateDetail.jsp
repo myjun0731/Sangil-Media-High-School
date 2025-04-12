@@ -29,7 +29,7 @@
 	%>
 	<script type="text/javascript">
 		alert("회원수정 성공");
-		location = "Board.jsp";
+		location = "Mypage.jsp";
 	</script>
 	<%
 		}

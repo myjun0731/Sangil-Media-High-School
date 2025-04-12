@@ -81,7 +81,7 @@ body {
 
 					try {
 						Class.forName("oracle.jdbc.driver.OracleDriver");
-						String url = "jdbc:oracle:thin:@localhost:1521:xe"; // 또는 :orcl, DB에 맞게 조정
+						String url = "jdbc:oracle:thin:@localhost:1521:xe";
 						String user = "system";
 						String password = "1234";
 

@@ -11,7 +11,6 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&family=Lato:wght@400;700&display=swap"
 	rel="stylesheet" />
-
 <style>
 * {
 	margin: 0;

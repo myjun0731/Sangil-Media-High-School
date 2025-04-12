@@ -1,7 +1,7 @@
 <%@page import="javax.websocket.Session"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
+	<%
 	Class.forName("oracle.jdbc.OracleDriver");
 	Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe","system","1234");
 	
@@ -24,7 +24,7 @@
 	
 	String mid = (String)application.getAttribute("mid");
 	
-	String sql = "insert into board_tbl values(?,?,?,to_date(sysdate, 'YYYY-MM-DD HH:MI:SS'),?,?,?)";
+	String sql = "insert into board_tbl values(?,?,?,to_char(sysdate, 'YYYY-MM-DD'),?,?,?)";
 	String sql2 = "select * from member_tbl where mid = '"+mid+"'";
 	
 	PreparedStatement pstmt = con.prepareStatement(sql);

@@ -99,16 +99,21 @@ input[type="button"]:hover {
 				<td><%=rs.getString("bdate") %></td>
 			</tr>
 
-			<tr>
-				<td colspan="2" style="text-align: center;"><input
-					type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
-					<%if(mid != null && mid.equals(request.getParameter("mid"))){ %> <input
-					type="button" value="삭제"
-					onclick="location.href='Delete.jsp?id=<%=request.getParameter("id")%>'">
-					<input type="button" value="수정"
-					onclick="location.href='Edit.jsp?id=<%=request.getParameter("id")%>'">
-					<%} %></td>
-			</tr>
+		<%if(mid.equals(request.getParameter("mid"))){ %>
+		<tr>
+			<td colspan="2" style="text-align: center;">
+				<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
+				<input type="button" value="삭제" onclick="location.href='Delete.jsp?id=<%=request.getParameter("id")%>'">
+				<input type="button" value="수정" onclick="location.href='Edit.jsp?id=<%=request.getParameter("id")%>'">
+			</td>
+		</tr>
+		<%}else{ %>
+		<tr>
+			<td colspan="2" style="text-align: center;">
+				<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
+			</td>
+		</tr>
+		<%} %>
 		</table>
 	</section>
 </body>

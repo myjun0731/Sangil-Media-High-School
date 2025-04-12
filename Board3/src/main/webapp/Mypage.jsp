@@ -64,7 +64,8 @@ input[type="button"]:hover {
 </head>
 <body>
 	<jsp:include page="Header.jsp" />
-	<%
+	<div class="info-container">
+<%
 	Class.forName("oracle.jdbc.OracleDriver");
 	Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe","system","1234");
 
@@ -77,68 +78,36 @@ input[type="button"]:hover {
 
 	ResultSet rs = con.prepareStatement(sql).executeQuery();
 	ResultSet rs2 = con.prepareStatement(sql2).executeQuery();
-
-	if(rs2.next()){
+	while(rs.next()){
+	if (rs.getString(4).equals("1")) {
 		%>
-	<div class="info-container">
-		<h1><%=rs2.getString("mname") %>님 정보
-		</h1>
-		<p>
-			아이디:
-			<%=rs2.getString("mid") %></p>
-		<p>
-			<%
-    String password = rs2.getString("mpw");
-    String maskedPassword = "*".repeat(password.length());
-%>
-
-			비밀번호: <span id="pwMask" style="opacity: 0.5;"><%= maskedPassword %></span>
-			<span id="pwReal" style="opacity: 0.5; display: none;"><%= password %></span>
-		<a style="text-align: right;">
-			<button type="button" onclick="togglePassword()">보이기</button>
-		</a>
-		</p>
-			<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
-			<input type="button" value="회원수정" onclick="location.href='UserUpdate.jsp?mid=<%=rs2.getString(1)%>&mpw=<%=rs2.getString(3)%>'">
-			<input type="button" value="회원탈퇴" onclick="location.href='UserDelete.jsp?mid=<%=rs2.getString(1)%>'">
-			<input type="button" value="로그아웃" onclick="location.href='logout.jsp?mid=<%=rs2.getString("mid")%>'">
-	</div>
-	<%
+		<h1><%=rs.getString(2) %>님 정보</h1>
+		<p>아이디 : <%=rs.getString(1) %></p>
+		<p>비밀번호 : <%=rs.getString(3) %></p>
+		<input type="button" value="뒤로가기" onclick="location.href='Board.jsp'">
+		<input type="button" value="회원수정" onclick="location.href='UserUpdate.jsp?mid=<%=rs.getString(1)%>&mpw=<%=rs.getString(3)%>'">
+		<input type="button" value="회원탈퇴" onclick="location.href='UserDelete.jsp?mid=<%=rs.getString(1)%>'">
+		<input type="button" value="로그아웃" onclick="location.href='logout.jsp?mid=<%=rs.getString(1)%>'">
+		<%
 		tt = true;
 	}
-
-	if(!tt){
+	}
+	if(tt == false){
 		%>
-	<div class="info-container">
-		<p>로그인 정보가 없어요!</p>
+		<p>로그인 정보가 없습니다.</p>
 		<input type="button" value="회원가입" onclick="location.href='Insert.jsp'">
 		<input type="button" value="로그인" onclick="location.href='loginhe.jsp'">
-	</div>
-	<%
+		<%
 	}
 
-	if(con != null) con.close();
+	if (rs != null) rs.close();
+	if (rs2 != null) rs2.close();
+	if (con != null) con.close();
 %>
+	</div>
 
-	<script>
-		// 비밀번호 보이기 및 숨기기
-		let showing = false;
-		function togglePassword() {
-			const pwMask = document.getElementById("pwMask");
-			const pwReal = document.getElementById("pwReal");
-			const btn = event.target;
+<script type="text/javascript">
 
-			if (showing) {
-				pwMask.style.display = "inline";
-				pwReal.style.display = "none";
-				btn.textContent = "보이기";
-			} else {
-				pwMask.style.display = "none";
-				pwReal.style.display = "inline";
-				btn.textContent = "숨기기";
-			}
-			showing = !showing;
-		}
-	</script>
+</script>
 </body>
 </html>
