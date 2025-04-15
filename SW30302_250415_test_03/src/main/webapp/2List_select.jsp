@@ -38,11 +38,12 @@ h2 {
 	rs = pstmt.executeQuery();
 	%>
 
-	<jsp:include page="Header.jsp"></jsp:include>
 
+	<jsp:include page="Header.jsp"></jsp:include>
 	<%
 	if (rs.next()) {
 	%>
+	<h2>예약번호: <%=resvno %> 의 접종예약조회</h2>
 	<section class="section">
 		<form action="2List_select.jsp" name="form">
 			<table class="s_tbl" border="1">
