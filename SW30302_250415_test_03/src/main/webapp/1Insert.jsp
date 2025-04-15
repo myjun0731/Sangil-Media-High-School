@@ -18,6 +18,10 @@ h2 {
 .s_tbl {
 text-align: center;
 }
+
+.s_tbl td {
+text-align: left;
+}
 </style>
 </head>
 <body>
@@ -29,32 +33,32 @@ text-align: center;
 		<form action="1Insert_Detail.jsp" name="form">
 			<table class="s_tbl" border="1">
 				<tr>
-					<td>접종예약번호</td>
-					<td><input type="text" name="resvno"></td>
+					<th>접종예약번호</th>
+					<td><input type="text" name="resvno">예) 20210001</td>
 				</tr>
 				<tr>
-					<td>주민번호</td>
-					<td><input type="text" name="jumin"></td>
+					<th>주민번호</th>
+					<td><input type="text" name="jumin">예) 710101-1000001</td>
 				</tr>
 				<tr>
-					<td>백신코드</td>
-					<td><input type="text" name="vcode"></td>
+					<th>백신코드</th>
+					<td><input type="text" name="vcode">예) V001 ~ V003</td>
 				</tr>
 				<tr>
-					<td>병원코드</td>
-					<td><input type="text" name="hospcode"></td>
+					<th>병원코드</th>
+					<td><input type="text" name="hospcode">예) H001</td>
 				</tr>
 				<tr>
-					<td>예약일자</td>
-					<td><input type="text" name="resvdate"></td>
+					<th>예약일자</th>
+					<td><input type="text" name="resvdate">예) 20211231</td>
 				</tr>
 				<tr>
-					<td>예약시간</td>
-					<td><input type="text" name="resvtime"></td>
+					<th>예약시간</th>
+					<td><input type="text" name="resvtime">예) 1230</td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="button" value="등록" onclick="yhs()"> <input
-						type="reset" value="다시쓰기"></td>
+					<th colspan="2"><input type="button" value="등록" onclick="yhs()"> <input
+						type="reset" value="다시쓰기"></th>
 				</tr>
 			</table>
 		</form>

@@ -11,13 +11,14 @@ h2 {
 	text-align: center;
 	padding: 20px;
 }
+
 .section {
 	justify-content: center;
 	display: flex;
 }
 
 .s_tbl {
-text-align: center;
+	text-align: center;
 }
 </style>
 </head>
@@ -35,13 +36,13 @@ text-align: center;
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, resvno);
 	rs = pstmt.executeQuery();
-	rs.next();
 	%>
 
 	<jsp:include page="Header.jsp"></jsp:include>
 
-	<h2 class="h2">백신접종예방</h2>
-
+	<%
+	if (rs.next()) {
+	%>
 	<section class="section">
 		<form action="2List_select.jsp" name="form">
 			<table class="s_tbl" border="1">
@@ -71,7 +72,16 @@ text-align: center;
 				</tr>
 			</table>
 		</form>
-		<input type="button" value="돌아가기" onclick="location.href='2List.jsp'">
 	</section>
+	<%
+	} else {
+	%>
+	<h1 style="text-align: center; padding-top: 50px;">접종예약정보가 존재하지 않습니다!!!</h1>
+	<%
+	}
+	%>
+	<div style="text-align: center; padding: 10px;">
+		<input type="button" value="돌아가기" onclick="location.href='2List.jsp'">
+	</div>
 </body>
 </html>
