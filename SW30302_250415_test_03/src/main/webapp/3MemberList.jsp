@@ -42,7 +42,7 @@ h2 {
 	%>
 	<jsp:include page="Header.jsp"></jsp:include>
 
-	<h2 class="h2">접종인원통계</h2>
+	<h2 class="h2">병원별 접종건수 통계</h2>
 
 	<section class="section">
 		<form action="2List_select.jsp" name="form">
