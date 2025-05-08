@@ -22,17 +22,22 @@
 			+ "sa.saleno";
 
 	ResultSet rs = conn.prepareStatement(sql).executeQuery();
+
+	rs.next();
+	String saleno = rs.getString(1);
+	rs.close();
+	ResultSet rs2 = conn.prepareStatement(sql).executeQuery();
 	%>
 	<jsp:include page="Header.jsp"></jsp:include>
-		<h2>재고현황</h2>
-		<form action="Amount_List_Sr.jsp" name="form1" class="Fr">
-			<table>
-				<tr>
-					<td><input type="text" name="select" value="<%=select%>"><input
-						type="submit" value="검색" onclick="return fn_submit();"></td>
-				</tr>
-			</table>
-		</form>
+	<h2>재고현황</h2>
+	<form action="Amount_List_Sr.jsp" name="form" class="Fr">
+		<table>
+			<tr>
+				<td><input type="text" name="select"><input
+					type="submit" value="검색" onclick="return fn_submit();"></td>
+			</tr>
+		</table>
+	</form>
 	<section>
 		<table border="1">
 			<tr>
@@ -45,18 +50,18 @@
 				<td>구매여부</td>
 			</tr>
 			<%
-			while (rs.next()) {
+			while (rs2.next()) {
 			%>
 			<tr>
-				<td><%=rs.getString(1)%></td>
-				<td><%=rs.getString(2)%></td>
-				<td><%=rs.getString(3).substring(0, 10)%></td>
-				<td><%=rs.getString(4)%></td>
-				<td><%=rs.getString(5)%></td>
-				<td><%=rs.getString(6)%></td>
+				<td><%=rs2.getString(1)%></td>
+				<td><%=rs2.getString(2)%></td>
+				<td><%=rs2.getString(3).substring(0, 10)%></td>
+				<td><%=rs2.getString(4)%></td>
+				<td><%=rs2.getString(5)%></td>
+				<td><%=rs2.getString(6)%></td>
 				<td><a
-					href="Amount_List_UpDate.jsp?saleno=<%=rs.getString(1)%>"
-					onclick="CK('<%=rs.getString(7)%>')"><%=rs.getString(7)%></a></td>
+					onclick="CK('<%=rs2.getString(7)%>', '<%=rs2.getString(1)%>')"><%=rs2.getString(7)%></a>
+				</td>
 			</tr>
 			<%
 			}
@@ -64,21 +69,24 @@
 		</table>
 	</section>
 	<script type="text/javascript">
-		function CK(This) {
+		function CK(This, Num) {
 			if (This == 'N') {
 				if (confirm("구매하시겠습니까?")) {
 					alert("정상적으로 구매되었습니다.");
-					return true;
+					location.href = "Amount_List_UpDate.jsp?saleno=" + Num;
 				} else {
 					alert("구매 취소");
+					location.href = "Amount_List.jsp";
 					return false;
 				}
 			} else {
 				if (confirm("판매하시겠습니까?")) {
 					alert("정상적으로 판매되었습니다.");
+					location.href = "Amount_List_UpDate.jsp?saleno=" + Num;
 					return true;
 				} else {
 					alert("판매 취소");
+					location.href = "Amount_List.jsp";
 					return false;
 				}
 
