@@ -12,7 +12,7 @@
 	Class.forName("oracle.jdbc.OracleDriver");
 	Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 
-	String SelectSql = "select * from TBL_ITEM_01 order by PCODE";
+	String SelectSql = "select PCODE,PNAME,decode(TYPE, 'C','기타', 'B', '소비', 'A', '장비'),PRICE from TBL_ITEM_01 order by PCODE";
 	ResultSet rs = conn.prepareStatement(SelectSql).executeQuery();
 	%>
 	<jsp:include page="Header.jsp"></jsp:include>

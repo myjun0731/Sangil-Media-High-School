@@ -72,4 +72,4 @@ group by sa.saleno, i.pname,sa.saledate,se.sname,
 sa.amount,sa.isbuy order by sa.saleno;
 
 
-select * from TBL_ITEM_01 order by PCODE;
+select PCODE,PNAME,decode(TYPE, 'C','기타', 'B', '소비', 'A', '장비'),PRICE from TBL_ITEM_01 order by PCODE;
