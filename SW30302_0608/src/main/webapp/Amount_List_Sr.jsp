@@ -24,6 +24,7 @@
 	ResultSet rs = conn.prepareStatement(sql).executeQuery();
 	%>
 	<jsp:include page="Header.jsp"></jsp:include>
+		<h2>재고현황</h2>
 		<form action="Amount_List_Sr.jsp" name="form1" class="Fr">
 			<table>
 				<tr>
