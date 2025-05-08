@@ -38,7 +38,7 @@
 						value="<%=rs1.getString(1)%>"></td>
 				</tr>
 				<tr>
-					<td>제품등록일(자동발생)</td>
+					<th>제품등록일(자동발생)</th>
 					<td><input type="text" name="saledate" readonly
 						value="<%=Stdate%>"></td>
 				</tr>
