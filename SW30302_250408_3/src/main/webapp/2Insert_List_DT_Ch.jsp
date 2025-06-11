@@ -18,7 +18,6 @@ ResultSet rs = null;
 
     String resvno = request.getParameter("resvno");
 
-    // 1. 기존 jumin 조회
     String selectSql = "SELECT jumin FROM tbl_vaccresv_202109 WHERE resvno = ?";
     pstmt = con.prepareStatement(selectSql);
     pstmt.setString(1, resvno);
@@ -28,12 +27,10 @@ ResultSet rs = null;
     if (rs.next()) {
         oldJumin = rs.getString("jumin");
     }
-
-    // 기존 pstmt/rs 닫기
+    
     rs.close();
     pstmt.close();
 
-    // 2. 예약 정보 업데이트
     String updateSql = "UPDATE tbl_vaccresv_202109 SET jumin = ?, vcode = ?, hospcode = ?, resvdate = ?, resvtime = ? WHERE resvno = ?";
     pstmt = con.prepareStatement(updateSql);
 
