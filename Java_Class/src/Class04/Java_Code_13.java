@@ -22,10 +22,7 @@ class Cat3 extends Animal3 {
 
 public class Java_Code_13 {
 	public static void main(String[] args) {
-		Animal3 ani1 = new Dog3();
-		Animal3 ani2 = new Cat3();
-		Animal3 Ar[] = { ani1, ani2 };
-
+		Animal3 Ar[] = { new Dog3(), new Cat3() };
 		for (int i = 0; i < Ar.length; i++) {
 			Ar[i].speak();
 		}
