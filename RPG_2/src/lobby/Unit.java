@@ -1,65 +1,99 @@
 package lobby;
 
-import lobby.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class Unit {
-	public static String userName;
-	public static String userJob = "학생";
-	public static int level = 1;
-	public static int hp = 50;
-	public static int mp = 15;
-	public static String location = "마을";
+	private static String userName;
+	private static String userJob;
+	private static int level;
+	private static int hp;
+	private static int mp;
+	private static String location;
+	private static List<String> inventory;
+	private final int maxInventory;
+	private static int money;
 
-	public void setName(String userName) {
-		this.userName = userName;
+	public Unit() {
+		this.userJob = "학생";
+		this.level = 1;
+		this.hp = 20;
+		this.mp = 3;
+		this.location = "";
+		this.inventory = new ArrayList<>();
+		this.maxInventory = 30;
+	}
+	
+	public static int getMoney() {
+		return money;
 	}
 
-	public void setJob(String userJob) {
-		this.userJob = userJob;
+	public static void setMoney(int money) {
+		Unit.money = money;
 	}
 
-	public String getName() {
+
+	public String getUserName() {
 		return userName;
 	}
 
-	public String getJob() {
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserJob() {
 		return userJob;
 	}
 
-	public void Setting() {
-		boolean yn = true;
-		do {
-			Scanner sc = new Scanner(System.in);
-			System.out.print("닉네임을 입력해주세요 :");
-			setName(sc.next());
-
-			System.out.println(
-					"닉네임 : [Lv." + level + "] " + userName + "\n직업 : " + userJob + "\n체력 : " + hp + " / 공격력 : " + mp);
-			System.out.println("다시 설정 하시곘습니까? (y/n)");
-			String cmd = sc.next();
-			if (cmd.equalsIgnoreCase("y")) {
-				System.out.println("다시 닉네임부터 설정합니다.");
-			} else if (cmd.equalsIgnoreCase("n")) {
-				yn = false;
-			}
-		} while (yn);
+	public void setUserJob(String userJob) {
+		this.userJob = userJob;
 	}
 
-	public void map() {
-		// TODO Auto-generated method stub
-		String map[] = { "마을", "상점", "학교" };
-		for (String m : map) {
-			System.out.println("1. " + m);
+	public int getLevel() {
+		return level;
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public int getMp() {
+		return mp;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public List<String> getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(String item) {
+		if (inventory.size() >= maxInventory) {
+			System.out.println("[!] 인벤토리에 들어갈 공간이 없습니다.");
+		} else {
+			inventory.add(item);
 		}
 	}
 
-	public void Info() {
+	public void printSetting() {
+		System.out.println("닉네임 : " + userName);
+		System.out.println("직업 : " + userJob);
+		System.out.println("체력 : " + hp + " / 공격력 : " + mp);
+	}
+
+	public void printInfo() {
+		System.out.println("===== 유저 정보 =====");
 		System.out.println("닉네임 : " + userName);
 		System.out.println("직업 : " + userJob);
 		System.out.println("레벨 : " + level);
 		System.out.println("체력 : " + hp);
-		System.out.println("공격력: " + mp);
+		System.out.println("공격력 : " + mp);
 		System.out.println("위치 : " + location);
+		System.out.println("인벤토리 [" + inventory.size() + "/" + maxInventory + "] : " + inventory);
 	}
 }
