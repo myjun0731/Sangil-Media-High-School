@@ -15,10 +15,11 @@ public class Tutorial {
 		System.out.println("<튜토리얼 - 복도>");
 		System.out.println("========================================");
 		System.out.println("<나레이션>");
-		System.out.println("“이 학교는 자바 실력을 키워야만 탈출할 수 있습니다.”");
-		System.out.println("당신은 졸업을 앞두고 있던 평범한 고등학생.");
-		System.out.println("그러나 눈을 떠보니 학교의 모든 출입구가 봉인되어 있다.");
+		System.out.println("졸업을 30일 앞두고, 갑자기 학교가 이상해졌다.");
+		System.out.println("교문은 사라지고, 복도엔 검은 안개가 깔렸다.");
+		System.out.println("교실엔 낯선 NPC들이 출몰하기 시작했다.");
 		System.out.println("정체불명의 방송이 울려 퍼진다.");
+		System.out.println("“자바를 정복하지 못한 자, 이 학교를 나갈 수 없다.”");
 		System.out.println("========================================");
 	}
 
@@ -75,10 +76,12 @@ public class Tutorial {
 
 	private void printTutorialEndMenu() {
 		System.out.println("\n================ 튜토리얼 종료 ================");
-		System.out.println("이제 본격적인 자바 학습 여정을 떠날 시간입니다!");
-		System.out.println("다음 장소로 가기 전에 필요한 작업을 선택하세요.");
+		System.out.println("이제 본격적인 자바 학습을 떠날 시간입니다!");
+		System.out.println("[팁] 다음 장소로 가기 전에 당신의 상태를 먼저 파악하는 것도 좋은 습관 중 하나입니다.");
+		System.out.println("--- --- --- ---");
 		System.out.println("1. 게임 접속");
 		System.out.println("2. 내 정보 확인");
+		System.out.println("--- --- --- ---");
 
 		System.out.print("▶ 선택: ");
 		String input = sc.next();

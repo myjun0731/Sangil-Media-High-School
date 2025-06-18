@@ -11,8 +11,7 @@ public class Menu {
 	Unit unit = new Unit();
 	Store store = new Store();
 
-	public void menuPrint() {
-		this.map = map;
+	public void menuPrint() throws Exception {
 		for (int i = 0; i < Menu.length; i++) {
 			System.out.println((i + 1) + ". " + Menu[i]);
 		}
