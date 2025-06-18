@@ -22,7 +22,7 @@ public class Unit {
 		this.inventory = new ArrayList<>();
 		this.maxInventory = 30;
 	}
-	
+
 	public static int getMoney() {
 		return money;
 	}
@@ -30,7 +30,6 @@ public class Unit {
 	public static void setMoney(int money) {
 		Unit.money = money;
 	}
-
 
 	public String getUserName() {
 		return userName;
@@ -91,6 +90,7 @@ public class Unit {
 		System.out.println("닉네임 : " + userName);
 		System.out.println("직업 : " + userJob);
 		System.out.println("레벨 : " + level);
+		System.out.println("화폐 : " + money + "p");
 		System.out.println("체력 : " + hp);
 		System.out.println("공격력 : " + mp);
 		System.out.println("위치 : " + location);

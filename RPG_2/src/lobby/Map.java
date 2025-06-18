@@ -12,8 +12,9 @@ public class Map {
 	public Map() {
 		locations = new ArrayList<>();
 		locations.add("학교 정문");
+		locations.add("1반 교실");
 		locations.add("매점");
-		locations.add("학교");
+		locations.add("급식실");
 		locations.add("집");
 	}
 
@@ -23,7 +24,6 @@ public class Map {
 			System.out.println((i + 1) + ". " + locations.get(i));
 		}
 		int Select = sc.nextInt();
-
 		moveMap(Select);
 	}
 
