@@ -24,6 +24,7 @@ public class Game {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.err.println("[!] 숫자만 입력 해주십시오.");
+				break;
 			}
 		}
 	}
