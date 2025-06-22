@@ -30,7 +30,7 @@ public class Game {
 	}
 
 	private void createPlayer() {
-		System.out.println("=== 미래형 텍스트 RPG에 오신 것을 환영합니다 ===");
+		System.out.println("=== 텍스트 RPG에 오신 것을 환영합니다 ===");
 		System.out.print("플레이어 이름을 입력하세요: ");
 		String name = scanner.nextLine();
 		player = new Player(name, 100, 20, 10);
