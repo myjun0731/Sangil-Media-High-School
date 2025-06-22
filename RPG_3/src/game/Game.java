@@ -34,7 +34,7 @@ public class Game {
 		System.out.print("플레이어 이름을 입력하세요: ");
 		String name = scanner.nextLine();
 		player = new Player(name, 100, 20, 10);
-		System.out.println("환영합니다, " + player.getName() + " 요원.");
+		System.out.println("환영합니다, " + player.getName() + " 님.");
 	}
 
 	private void showMainMenu() {
