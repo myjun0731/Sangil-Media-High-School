@@ -29,7 +29,6 @@ public class Player {
 	static {
 		weaponBonus.put("철검", 10);
 		weaponBonus.put("강철검", 20);
-		weaponBonus.put("레이저블레이드", 40);
 
 		armorBonus.put("가죽갑옷", 8);
 		armorBonus.put("강철갑옷", 15);
