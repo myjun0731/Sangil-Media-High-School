@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_SetTimeout&SetInterval</title>
+</head>
+<body>
+	<script>
+	function sayHi(who, phrase) {
+		  alert( who + '님, ' + phrase );
+		}
+
+		setTimeout(sayHi, 1000, "홍길동", "안녕하세요.");
+
+		let timerId = setInterval(() => alert('째깍'), 2000);
+
+		// 5초 후에 정지
+		setTimeout(() => { clearInterval(timerId); alert('정지'); }, 5000);
+	</script>
+</body>
+</html>
