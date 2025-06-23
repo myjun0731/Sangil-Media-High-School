@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_Function</title>
+</head>
+<body>
+	<script>
+		function showMessage(from, text) {
+		  alert(from + ':' + text);
+		}
+		showMessage('Ann', 'Hello!');
+		showMessage('Ann', "What's up?");
+
+		function showMessage(from, text = "no text") {
+		  alert( from + ":" + text );
+		}
+		showMessage("Ann");
+
+		function sum(a, b) {
+		  return a + b;
+		}
+		let result = sum(1, 2);
+		alert( result ); // 3
+	</script>
+</body>
+</html>
