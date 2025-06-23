@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_Promise</title>
+</head>
+<body>
+	<script>
+		const myPromise = new Promise((resolve, reject) => {
+		  setTimeout(() => {
+		    const success = true;
+		    if (success) {
+		      resolve("작업 성공!");
+		    } else {
+		      reject(new Error("작업 실패!"));
+		    }
+		  }, 1000);
+		});
+	</script>
+</body>
+</html>
