@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_PromiseChaining</title>
+</head>
+<body>
+	<script>
+		new Promise((resolve, reject) => {
+		  setTimeout(() => resolve(10), 1000);
+		})
+		.then((num) => {
+		  console.log("첫 번째 then:", num); // 10
+		  return num * 2;
+		})
+		.then((num) => {
+		  console.log("두 번째 then:", num); // 20
+		  return num * 3;
+		})
+		.then((num) => {
+		  console.log("세 번째 then:", num); // 60
+		})
+		.catch((error) => {
+		  console.error("에러 발생:", error);
+		});
+	</script>
+</body>
+</html>
