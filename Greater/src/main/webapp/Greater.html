@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greater</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow-x: auto;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr 250px;
+            gap: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar-left, .sidebar-right {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .game-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .game-board {
+            width: 500px;
+            height: 600px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            background: rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .block {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .block:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .block.selected {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            border-color: white;
+        }
+
+        .block.frozen {
+            border-color: #87ceeb;
+            box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+        }
+
+        .block.bomb {
+            background: radial-gradient(circle, #ff4757, #c44569) !important;
+        }
+
+        .block.line-clearer {
+            background: linear-gradient(45deg, #ffa726, #ff7043) !important;
+        }
+
+        .block.color-changer {
+            background: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fd79a8, #a29bfe, #ff6b6b) !important;
+        }
+
+        .block.rainbow {
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) !important;
+            background-size: 300% 300%;
+            animation: rainbow 2s ease infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .obstacle {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            background: #333;
+            border: 2px solid #555;
+            border-radius: 5px;
+        }
+
+        .power-up {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: gold;
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+            animation: pulse 1.5s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .mission-panel h3, .powerups-panel h3, .stats-panel h3 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        .mission-item, .powerup-item, .upgrade-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .mission-progress {
+            background: rgba(0,0,0,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .mission-progress-bar {
+            background: #4ecdc4;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .powerup-button, .upgrade-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .powerup-button:hover, .upgrade-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .powerup-button:disabled, .upgrade-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .game-mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .mode-button {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-button.active {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #45b7d1);
+            transition: width 0.3s ease;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .boss-health {
+            width: 100%;
+            height: 30px;
+            background: rgba(255,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 2px solid #ff6b6b;
+        }
+
+        .boss-health-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ff4757);
+            transition: width 0.5s ease;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .game-board {
+                width: 400px;
+                height: 480px;
+            }
+            
+            .block {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle 1s ease-out forwards;
+        }
+
+        @keyframes particle {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+
+        .explosion {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8), transparent);
+            pointer-events: none;
+            animation: explode 0.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar-left">
+            <div class="mission-panel">
+                <h3>🎯 미션</h3>
+                <div id="missionList"></div>
+            </div>
+            
+            <div class="stats-panel">
+                <h3>📊 통계</h3>
+                <div id="statsDisplay"></div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <h1>Greater</h1>
+            
+            <div class="game-mode-selector">
+                <button class="mode-button active" onclick="setGameMode('classic')">클래식</button>
+                <button class="mode-button" onclick="setGameMode('timed')">시간 제한</button>
+                <button class="mode-button" onclick="setGameMode('moves')">턴 제한</button>
+                <button class="mode-button" onclick="setGameMode('boss')">보스전</button>
+            </div>
+
+            <div class="game-info">
+                <div class="info-item">
+                    <div class="info-label">점수</div>
+                    <div class="info-value" id="score">0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">레벨</div>
+                    <div class="info-value" id="level">1</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">이동</div>
+                    <div class="info-value" id="moves">0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">콤보</div>
+                    <div class="info-value" id="combo">0</div>
+                </div>
+            </div>
+
+            <div id="bossHealthContainer" style="display: none;">
+                <div class="boss-health">
+                    <div class="boss-health-bar" id="bossHealthBar"></div>
+                </div>
+            </div>
+
+            <div id="timerContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="timerBar"></div>
+                </div>
+            </div>
+
+            <div class="game-board" id="gameBoard"></div>
+
+            <div class="controls">
+                <button onclick="newGame()">새 게임</button>
+                <button onclick="pauseGame()">일시정지</button>
+                <button onclick="showHint()">힌트</button>
+                <button onclick="shuffle()">섞기</button>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <div class="powerups-panel">
+                <h3>⚡ 파워업</h3>
+                <div id="powerupsList"></div>
+                <div style="margin-top: 20px;">
+                    <div class="info-label">코인: <span id="coins">100</span></div>
+                </div>
+            </div>
+
+            <div class="upgrades-panel">
+                <h3>🔧 업그레이드</h3>
+                <div id="upgradesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        class EnhancedGreaterGame {
+            constructor() {
+                this.board = document.getElementById('gameBoard');
+                this.boardWidth = 10;
+                this.boardHeight = 12;
+                this.blockSize = 50;
+                this.colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#fd79a8', '#a29bfe', '#ff9ff3'];
+                this.blocks = [];
+                this.obstacles = [];
+                this.powerUps = [];
+                this.selectedBlock = null;
+                
+                // 게임 상태
+                this.score = 0;
+                this.level = 1;
+                this.moves = 0;
+                this.combo = 0;
+                this.coins = 100;
+                this.gameMode = 'classic';
+                this.isPaused = false;
+                this.timeRemaining = 120;
+                this.movesRemaining = 30;
+                this.bossHealth = 1000;
+                this.maxBossHealth = 1000;
+                
+                // 업그레이드
+                this.upgrades = {
+                    explosionRadius: 1,
+                    comboMultiplier: 1,
+                    powerUpChance: 0.1,
+                    scoreMultiplier: 1,
+                    extraMoves: 0
+                };
+                
+                // 미션
+                this.missions = [
+                    { id: 1, name: "블록 100개 제거", target: 100, current: 0, reward: 50, type: 'blocks' },
+                    { id: 2, name: "10콤보 달성", target: 10, current: 0, reward: 30, type: 'combo' },
+                    { id: 3, name: "점수 5000점 달성", target: 5000, current: 0, reward: 75, type: 'score' },
+                    { id: 4, name: "특수 블록 20개 사용", target: 20, current: 0, reward: 40, type: 'special' }
+                ];
+                
+                // 파워업 목록
+                this.powerUpTypes = [
+                    { id: 'bomb', name: '💣 폭탄', cost: 20, description: '3x3 영역 제거' },
+                    { id: 'lineClear', name: '⚡ 라인 클리어', cost: 25, description: '한 줄 완전 제거' },
+                    { id: 'colorChange', name: '🎨 색상 변경', cost: 15, description: '블록 색상 변경' },
+                    { id: 'rainbow', name: '🌈 무지개', cost: 35, description: '모든 색과 매치' },
+                    { id: 'shuffle', name: '🔄 섞기', cost: 10, description: '보드 섞기' }
+                ];
+                
+                this.audioContext = null;
+                this.initAudio();
+                this.loadGameData();
+                this.initializeGame();
+            }
+
+            initAudio() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.log('Web Audio API not supported');
+                }
+            }
+
+            playSound(frequency, duration = 0.1, type = 'sine') {
+                if (!this.audioContext) return;
+                
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = type;
+                
+                gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+                
+                oscillator.start(this.audioContext.currentTime);
+                oscillator.stop(this.audioContext.currentTime + duration);
+            }
+
+            initializeGame() {
+                this.createInitialBlocks();
+                this.setupEventListeners();
+                this.updateUI();
+                this.updateMissions();
+                this.updatePowerUps();
+                this.updateUpgrades();
+                this.updateStats();
+                this.startGameLoop();
+            }
+
+            createInitialBlocks() {
+                this.blocks = [];
+                this.obstacles = [];
+                this.powerUps = [];
+                
+                // 장애물 생성 (높은 레벨에서)
+                if (this.level > 3) {
+                    for (let i = 0; i < Math.min(this.level - 3, 5); i++) {
+                        this.createObstacle();
+                    }
+                }
+                
+                // 블록 생성
+                const blockCount = Math.min(20 + this.level * 2, this.boardWidth * this.boardHeight * 0.6);
+                for (let i = 0; i < blockCount; i++) {
+                    this.createRandomBlock();
+                }
+            }
+
+            createObstacle() {
+                const obstacle = {
+                    x: Math.floor(Math.random() * this.boardWidth),
+                    y: Math.floor(Math.random() * this.boardHeight),
+                    element: null
+                };
+
+                while (this.getBlockAt(obstacle.x, obstacle.y) || this.getObstacleAt(obstacle.x, obstacle.y)) {
+                    obstacle.x = Math.floor(Math.random() * this.boardWidth);
+                    obstacle.y = Math.floor(Math.random() * this.boardHeight);
+                }
+
+                const element = document.createElement('div');
+                element.className = 'obstacle';
+                element.style.left = (obstacle.x * this.blockSize) + 'px';
+                element.style.top = (obstacle.y * this.blockSize) + 'px';
+                
+                obstacle.element = element;
+                this.obstacles.push(obstacle);
+                this.board.appendChild(element);
+            }
+
+            createRandomBlock() {
+                const specialChance = this.upgrades.powerUpChance;
+                const isSpecial = Math.random() < specialChance;
+                
+                let blockType = 'normal';
+                if (isSpecial) {
+                    const types = ['bomb', 'lineClear', 'colorChange', 'rainbow'];
+                    blockType = types[Math.floor(Math.random() * types.length)];
+                }
+
+                const block = {
+                    id: Date.now() + Math.random(),
+                    x: Math.floor(Math.random() * this.boardWidth),
+                    y: Math.floor(Math.random() * this.boardHeight),
+                    color: this.colors[Math.floor(Math.random() * this.colors.length)],
+                    type: blockType,
+                    frozen: Math.random() < 0.05 && this.level > 5,
+                    element: null
+                };
+
+                while (this.getBlockAt(block.x, block.y) || this.getObstacleAt(block.x, block.y)) {
+                    block.x = Math.floor(Math.random() * this.boardWidth);
+                    block.y = Math.floor(Math.random() * this.boardHeight);
+                }
+
+                this.blocks.push(block);
+                this.createBlockElement(block);
+            }
+
+            createBlockElement(block) {
+                const element = document.createElement('div');
+                element.className = `block ${block.type}`;
+                if (block.frozen) element.classList.add('frozen');
+                
+                element.style.backgroundColor = block.color;
+                element.style.left = (block.x * this.blockSize) + 'px';
+                element.style.top = (block.y * this.blockSize) + 'px';
+                element.dataset.blockId = block.id;
+                
+                // 특수 블록 아이콘
+                const icons = {
+                    bomb: '💣',
+                    lineClear: '⚡',
+                    colorChange: '🎨',
+                    rainbow: '🌈'
+                };
+                
+                if (icons[block.type]) {
+                    element.textContent = icons[block.type];
+                }
+                
+                block.element = element;
+                this.board.appendChild(element);
+
+                element.addEventListener('click', () => this.selectBlock(block));
+            }
+
+            setupEventListeners() {
+                this.board.addEventListener('click', (e) => {
+                    if (e.target === this.board && this.selectedBlock) {
+                        const rect = this.board.getBoundingClientRect();
+                        const x = Math.floor((e.clientX - rect.left) / this.blockSize);
+                        const y = Math.floor((e.clientY - rect.top) / this.blockSize);
+                        
+                        if (x >= 0 && x < this.boardWidth && y >= 0 && y < this.boardHeight) {
+                            this.moveBlock(this.selectedBlock, x, y);
+                        }
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.pauseGame();
+                    }
+                });
+            }
+
+            selectBlock(block) {
+                if (this.isPaused) return;
+                if (block.frozen && Math.random() < 0.7) {
+                    this.showNotification('얼어붙은 블록입니다!');
+                    return;
+                }
+
+                if (this.selectedBlock) {
+                    this.selectedBlock.element.classList.remove('selected');
+                }
+                
+                this.selectedBlock = block;
+                block.element.classList.add('selected');
+                this.playSound(440, 0.1);
+            }
+
+            moveBlock(block, newX, newY) {
+                if (this.isPaused) return;
+                if (this.getBlockAt(newX, newY) || this.getObstacleAt(newX, newY)) return;
+
+                if (this.gameMode === 'moves' && this.movesRemaining <= 0) {
+                    this.showNotification('이동 횟수가 부족합니다!');
+                    return;
+                }
+
+                block.x = newX;
+                block.y = newY;
+                block.element.style.left = (newX * this.blockSize) + 'px';
+                block.element.style.top = (newY * this.blockSize) + 'px';
+                
+                this.moves++;
+                if (this.gameMode === 'moves') {
+                    this.movesRemaining--;
+                }
+                
+                this.selectedBlock.element.classList.remove('selected');
+                this.selectedBlock = null;
+                
+                this.playSound(550, 0.1);
+                
+                setTimeout(() => {
+                    this.checkCombinations();
+                    this.updateUI();
+                }, 300);
+            }
+
+            checkCombinations() {
+                const combinations = this.findCombinations();
+                
+                if (combinations.length > 0) {
+                    this.combo++;
+                    this.processCombinations(combinations);
+                } else {
+                    this.combo = 0;
+                }
+                
+                this.updateMissionProgress('combo', this.combo);
+            }
+
+            findCombinations() {
+                const visited = new Set();
+                const combinations = [];
+
+                for (const block of this.blocks) {
+                    if (visited.has(block.id)) continue;
+
+                    const group = this.findConnectedBlocks(block, visited);
+                    if (group.length >= 3 || group.some(b => b.type === 'rainbow')) {
+                        combinations.push(group);
+                    }
+                }
+
+                return combinations;
+            }
+
+            findConnectedBlocks(startBlock, visited) {
+                const group = [];
+                const stack = [startBlock];
+                
+                while (stack.length > 0) {
+                    const block = stack.pop();
+                    if (visited.has(block.id)) continue;
+                    
+                    visited.add(block.id);
+                    group.push(block);
+                    
+                    const neighbors = this.getNeighbors(block);
+                    for (const neighbor of neighbors) {
+                        if (!visited.has(neighbor.id)) {
+                            if (neighbor.color === block.color || 
+                                neighbor.type === 'rainbow' || 
+                                block.type === 'rainbow') {
+                                stack.push(neighbor);
+                            }
+                        }
+                    }
+                }
+                
+                return group;
+            }
+
+            getNeighbors(block) {
+                const neighbors = [];
+                const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+                
+                for (const [dx, dy] of directions) {
+                    const neighbor = this.getBlockAt(block.x + dx, block.y + dy);
+                    if (neighbor) {
+                        neighbors.push(neighbor);
+                    }
+                }
+                
+                return neighbors;
+            }
+
+            processCombinations(combinations) {
+                let totalBlocks = 0;
+                let specialUsed = 0;
+                
+                for (const group of combinations) {
+                    totalBlocks += group.length;
+                    
+                    for (const block of group) {
+                        if (block.type !== 'normal') {
+                            specialUsed++;
+                            this.activateSpecialBlock(block);
+                        }
+                        
+                        this.createParticles(block);
+                        this.createExplosion(block);
+                        
+                        block.element.classList.add('exploding');
+                        
+                        setTimeout(() => {
+                            if (block.element && block.element.parentNode) {
+                                this.board.removeChild(block.element);
+                            }
+                            this.blocks = this.blocks.filter(b => b.id !== block.id);
+                        }, 600);
+                    }
+                }
+                
+                this.updateMissionProgress('blocks', totalBlocks);
+                this.updateMissionProgress('special', specialUsed);
+                
+                const baseScore = totalBlocks * 10 * this.upgrades.scoreMultiplier;
+                const comboBonus = this.combo * 50 * this.upgrades.comboMultiplier;
+                const levelBonus = this.level * 5;
+                const scoreGained = baseScore + comboBonus + levelBonus;
+                
+                this.score += scoreGained;
+                this.updateMissionProgress('score', scoreGained);
+                
+                // 보스전에서는 보스 체력 감소
+                if (this.gameMode === 'boss') {
+                    this.bossHealth -= totalBlocks * 10;
+                    this.updateBossHealth();
+                }
+                
+                this.playSound(220 + (this.combo * 20), 0.2, 'square');
+                
+                setTimeout(() => {
+                    this.dropBlocks();
+                    this.checkLevelUp();
+                    this.spawnPowerUps();
+                    this.updateUI();
+                }, 700);
+            }
+
+            activateSpecialBlock(block) {
+                switch (block.type) {
+                    case 'bomb':
+                        this.explodeBomb(block);
+                        break;
+                    case 'lineClear':
+                        this.clearLine(block);
+                        break;
+                    case 'colorChange':
+                        this.changeColors(block);
+                        break;
+                }
+            }
+
+            explodeBomb(bombBlock) {
+                const radius = this.upgrades.explosionRadius;
+                const affectedBlocks = [];
+                
+                for (let dx = -radius; dx <= radius; dx++) {
+                    for (let dy = -radius; dy <= radius; dy++) {
+                        const targetBlock = this.getBlockAt(bombBlock.x + dx, bombBlock.y + dy);
+                        if (targetBlock && targetBlock.id !== bombBlock.id) {
+                            affectedBlocks.push(targetBlock);
+                        }
+                    }
+                }
+                
+                for (const block of affectedBlocks) {
+                    this.createParticles(block);
+                    block.element.classList.add('exploding');
+                    
+                    setTimeout(() => {
+                        if (block.element && block.element.parentNode) {
+                            this.board.removeChild(block.element);
+                        }
+                        this.blocks = this.blocks.filter(b => b.id !== block.id);
+                    }, 600);
+                }
+            }
+
+            clearLine(lineBlock) {
+                const blocksToRemove = this.blocks.filter(block => 
+                    block.y === lineBlock.y || block.x === lineBlock.x
+                );
+                
+                for (const block of blocksToRemove) {
+                    if (block.id !== lineBlock.id) {
+                        this.createParticles(block);
+                        block.element.classList.add('exploding');
+                        
+                        setTimeout(() => {
+                            if (block.element && block.element.parentNode) {
+                                this.board.removeChild(block.element);
+                            }
+                            this.blocks = this.blocks.filter(b => b.id !== block.id);
+                        }, 600);
+                    }
+                }
+            }
+
+            changeColors(colorBlock) {
+                const sameColorBlocks = this.blocks.filter(block => 
+                    block.color === colorBlock.color && block.id !== colorBlock.id
+                );
+                
+                const newColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+                
+                for (const block of sameColorBlocks) {
+                    block.color = newColor;
+                    block.element.style.backgroundColor = newColor;
+                }
+            }
+
+            createExplosion(block) {
+                const explosion = document.createElement('div');
+                explosion.className = 'explosion';
+                explosion.style.left = (block.x * this.blockSize - 25) + 'px';
+                explosion.style.top = (block.y * this.blockSize - 25) + 'px';
+                
+                this.board.appendChild(explosion);
+                
+                setTimeout(() => {
+                    if (explosion.parentNode) {
+                        this.board.removeChild(explosion);
+                    }
+                }, 500);
+            }
+
+            createParticles(block) {
+                const rect = block.element.getBoundingClientRect();
+                const boardRect = this.board.getBoundingClientRect();
+                
+                for (let i = 0; i < 12; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.backgroundColor = block.color;
+                    particle.style.left = (rect.left - boardRect.left + 22) + 'px';
+                    particle.style.top = (rect.top - boardRect.top + 22) + 'px';
+                    
+                    const angle = (i / 12) * Math.PI * 2;
+                    const distance = 50 + Math.random() * 40;
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance;
+                    
+                    particle.style.setProperty('--dx', dx + 'px');
+                    particle.style.setProperty('--dy', dy + 'px');
+                    
+                    this.board.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            this.board.removeChild(particle);
+                        }
+                    }, 1000);
+                }
+            }
+
+            dropBlocks() {
+                let moved = true;
+                
+                while (moved) {
+                    moved = false;
+                    
+                    for (const block of this.blocks) {
+                        if (block.y < this.boardHeight - 1) {
+                            const below = this.getBlockAt(block.x, block.y + 1);
+                            const obstacleBelow = this.getObstacleAt(block.x, block.y + 1);
+                            
+                            if (!below && !obstacleBelow) {
+                                block.y++;
+                                block.element.style.top = (block.y * this.blockSize) + 'px';
+                                moved = true;
+                            }
+                        }
+                    }
+                }
+                
+                setTimeout(() => {
+                    this.checkCombinations();
+                }, 300);
+            }
+
+            spawnPowerUps() {
+                if (Math.random() < 0.15 && this.powerUps.length < 3) {
+                    const powerUp = {
+                        x: Math.floor(Math.random() * this.boardWidth),
+                        y: Math.floor(Math.random() * this.boardHeight),
+                        type: this.powerUpTypes[Math.floor(Math.random() * this.powerUpTypes.length)].id,
+                        element: null
+                    };
+
+                    while (this.getBlockAt(powerUp.x, powerUp.y) || this.getObstacleAt(powerUp.x, powerUp.y)) {
+                        powerUp.x = Math.floor(Math.random() * this.boardWidth);
+                        powerUp.y = Math.floor(Math.random() * this.boardHeight);
+                    }
+
+                    const element = document.createElement('div');
+                    element.className = 'power-up';
+                    element.style.left = (powerUp.x * this.blockSize + 2.5) + 'px';
+                    element.style.top = (powerUp.y * this.blockSize + 2.5) + 'px';
+                    element.textContent = '⭐';
+                    
+                    powerUp.element = element;
+                    this.powerUps.push(powerUp);
+                    this.board.appendChild(element);
+
+                    element.addEventListener('click', () => this.collectPowerUp(powerUp));
+                }
+            }
+
+            collectPowerUp(powerUp) {
+                this.coins += 10;
+                this.showNotification(`파워업 획득! +10 코인`);
+                
+                this.board.removeChild(powerUp.element);
+                this.powerUps = this.powerUps.filter(p => p !== powerUp);
+                
+                this.playSound(880, 0.3);
+                this.updateUI();
+            }
+
+            getBlockAt(x, y) {
+                return this.blocks.find(block => block.x === x && block.y === y);
+            }
+
+            getObstacleAt(x, y) {
+                return this.obstacles.find(obstacle => obstacle.x === x && obstacle.y === y);
+            }
+
+            checkLevelUp() {
+                const requiredScore = this.level * 1000;
+                if (this.score >= requiredScore) {
+                    this.level++;
+                    this.showNotification(`레벨 ${this.level}!`);
+                    this.playSound(660, 0.5, 'triangle');
+                    
+                    // 새로운 블록과 장애물 추가
+                    this.addRandomBlocks(5);
+                    if (this.level > 3 && Math.random() < 0.3) {
+                        this.createObstacle();
+                    }
+                }
+            }
+
+            addRandomBlocks(count = 5) {
+                for (let i = 0; i < count; i++) {
+                    if (this.blocks.length < this.boardWidth * this.boardHeight * 0.8) {
+                        this.createRandomBlock();
+                    }
+                }
+            }
+
+            showHint() {
+                if (this.coins < 5) {
+                    this.showNotification('코인이 부족합니다!');
+                    return;
+                }
+                
+                this.coins -= 5;
+                const combinations = this.findCombinations();
+                
+                if (combinations.length > 0) {
+                    const firstGroup = combinations[0];
+                    for (const block of firstGroup) {
+                        block.element.style.boxShadow = '0 0 20px #ffff00';
+                        setTimeout(() => {
+                            if (block.element) {
+                                block.element.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                            }
+                        }, 3000);
+                    }
+                } else {
+                    this.showNotification('매치 가능한 블록이 없습니다!');
+                }
+                
+                this.updateUI();
+            }
+
+            shuffle() {
+                if (this.coins < 15) {
+                    this.showNotification('코인이 부족합니다!');
+                    return;
+                }
+                
+                this.coins -= 15;
+                
+                // 블록 위치 섞기
+                const positions = [];
+                for (const block of this.blocks) {
+                    positions.push({ x: block.x, y: block.y });
+                }
+                
+                for (let i = positions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [positions[i], positions[j]] = [positions[j], positions[i]];
+                }
+                
+                this.blocks.forEach((block, index) => {
+                    block.x = positions[index].x;
+                    block.y = positions[index].y;
+                    block.element.style.left = (block.x * this.blockSize) + 'px';
+                    block.element.style.top = (block.y * this.blockSize) + 'px';
+                });
+                
+                this.playSound(440, 0.3, 'sawtooth');
+                this.updateUI();
+            }
+
+            setGameMode(mode) {
+                this.gameMode = mode;
+                
+                document.querySelectorAll('.mode-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                
+                // 모드별 초기화
+                switch (mode) {
+                    case 'timed':
+                        this.timeRemaining = 120;
+                        document.getElementById('timerContainer').style.display = 'block';
+                        document.getElementById('bossHealthContainer').style.display = 'none';
+                        break;
+                    case 'moves':
+                        this.movesRemaining = 30 + this.upgrades.extraMoves;
+                        document.getElementById('timerContainer').style.display = 'none';
+                        document.getElementById('bossHealthContainer').style.display = 'none';
+                        break;
+                    case 'boss':
+                        this.bossHealth = this.maxBossHealth;
+                        document.getElementById('bossHealthContainer').style.display = 'block';
+                        document.getElementById('timerContainer').style.display = 'none';
+                        this.updateBossHealth();
+                        break;
+                    default:
+                        document.getElementById('timerContainer').style.display = 'none';
+                        document.getElementById('bossHealthContainer').style.display = 'none';
+                }
+                this.newGame();
+            }
+
+            updateBossHealth() {
+                const healthPercentage = (this.bossHealth / this.maxBossHealth) * 100;
+                document.getElementById('bossHealthBar').style.width = healthPercentage + '%';
+                
+                if (this.bossHealth <= 0) {
+                    this.showNotification('보스 처치! 게임 클리어!');
+                    this.score += 5000;
+                    this.coins += 100;
+                    this.gameMode = 'classic';
+                    setTimeout(() => this.newGame(), 2000);
+                }
+            }
+
+            startGameLoop() {
+                setInterval(() => {
+                    if (this.isPaused) return;
+                    
+                    if (this.gameMode === 'timed') {
+                        this.timeRemaining--;
+                        const timePercentage = (this.timeRemaining / 120) * 100;
+                        document.getElementById('timerBar').style.width = timePercentage + '%';
+                        
+                        if (this.timeRemaining <= 0) {
+                            this.showNotification('시간 종료!');
+                            this.newGame();
+                        }
+                    }
+                    
+                    if (this.gameMode === 'moves' && this.movesRemaining <= 0) {
+                        this.showNotification('이동 횟수 소진!');
+                        this.newGame();
+                    }
+                }, 1000);
+            }
+
+            pauseGame() {
+                this.isPaused = !this.isPaused;
+                this.showNotification(this.isPaused ? '게임 일시정지' : '게임 재개');
+            }
+
+            // 미션 시스템
+            updateMissionProgress(type, amount) {
+                for (const mission of this.missions) {
+                    if (mission.type === type && mission.current < mission.target) {
+                        mission.current += amount;
+                        if (mission.current >= mission.target) {
+                            this.completeMission(mission);
+                        }
+                    }
+                }
+                this.updateMissions();
+            }
+
+            completeMission(mission) {
+                this.coins += mission.reward;
+                this.showNotification(`미션 완료! ${mission.name} (+${mission.reward} 코인)`);
+                this.playSound(880, 0.5, 'triangle');
+                
+                // 새로운 미션 생성
+                mission.current = 0;
+                mission.target = Math.floor(mission.target * 1.5);
+                mission.reward = Math.floor(mission.reward * 1.2);
+            }
+
+            updateMissions() {
+                const missionList = document.getElementById('missionList');
+                missionList.innerHTML = '';
+                
+                this.missions.forEach(mission => {
+                    const missionDiv = document.createElement('div');
+                    missionDiv.className = 'mission-item';
+                    
+                    const progress = Math.min((mission.current / mission.target) * 100, 100);
+                    
+                    missionDiv.innerHTML = `
+                        <div style="font-weight: bold; margin-bottom: 5px;">${mission.name}</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">${mission.current}/${mission.target}</div>
+                        <div class="mission-progress">
+                            <div class="mission-progress-bar" style="width: ${progress}%"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #ffd700;">보상: ${mission.reward} 코인</div>
+                    `;
+                    
+                    missionList.appendChild(missionDiv);
+                });
+            }
+
+            updatePowerUps() {
+                const powerupsList = document.getElementById('powerupsList');
+                powerupsList.innerHTML = '';
+                
+                this.powerUpTypes.forEach(powerup => {
+                    const powerupDiv = document.createElement('div');
+                    powerupDiv.className = 'powerup-item';
+                    
+                    powerupDiv.innerHTML = `
+                        <div style="font-weight: bold;">${powerup.name}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8; margin: 5px 0;">${powerup.description}</div>
+                        <button class="powerup-button" onclick="game.usePowerUp('${powerup.id}')" 
+                                ${this.coins < powerup.cost ? 'disabled' : ''}>
+                            사용 (${powerup.cost} 코인)
+                        </button>
+                    `;
+                    
+                    powerupsList.appendChild(powerupDiv);
+                });
+            }
+
+            usePowerUp(type) {
+                const powerup = this.powerUpTypes.find(p => p.id === type);
+                if (!powerup || this.coins < powerup.cost) return;
+                
+                this.coins -= powerup.cost;
+                
+                switch (type) {
+                    case 'bomb':
+                        this.activateBombPowerUp();
+                        break;
+                    case 'lineClear':
+                        this.activateLineClearPowerUp();
+                        break;
+                    case 'colorChange':
+                        this.activateColorChangePowerUp();
+                        break;
+                    case 'rainbow':
+                        this.activateRainbowPowerUp();
+                        break;
+                    case 'shuffle':
+                        this.shuffle();
+                        this.coins += 15; // 셔플은 이미 코인을 차감하므로
+                        break;
+                }
+                
+                this.playSound(660, 0.3);
+                this.updateUI();
+                this.updatePowerUps();
+            }
+
+            activateBombPowerUp() {
+                if (this.blocks.length === 0) return;
+                
+                const randomBlock = this.blocks[Math.floor(Math.random() * this.blocks.length)];
+                this.explodeBomb(randomBlock);
+                this.showNotification('폭탄 파워업 사용!');
+            }
+
+            activateLineClearPowerUp() {
+                const row = Math.floor(Math.random() * this.boardHeight);
+                const blocksToRemove = this.blocks.filter(block => block.y === row);
+                
+                for (const block of blocksToRemove) {
+                    this.createParticles(block);
+                    block.element.classList.add('exploding');
+                    
+                    setTimeout(() => {
+                        if (block.element && block.element.parentNode) {
+                            this.board.removeChild(block.element);
+                        }
+                        this.blocks = this.blocks.filter(b => b.id !== block.id);
+                    }, 600);
+                }
+                
+                this.showNotification('라인 클리어 파워업 사용!');
+            }
+
+            activateColorChangePowerUp() {
+                const colorToChange = this.colors[Math.floor(Math.random() * this.colors.length)];
+                const newColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+                
+                const blocksToChange = this.blocks.filter(block => block.color === colorToChange);
+                
+                for (const block of blocksToChange) {
+                    block.color = newColor;
+                    block.element.style.backgroundColor = newColor;
+                }
+                
+                this.showNotification('색상 변경 파워업 사용!');
+            }
+
+            activateRainbowPowerUp() {
+                if (this.blocks.length === 0) return;
+                
+                const randomBlock = this.blocks[Math.floor(Math.random() * this.blocks.length)];
+                randomBlock.type = 'rainbow';
+                randomBlock.element.className = 'block rainbow';
+                randomBlock.element.textContent = '🌈';
+                
+                this.showNotification('무지개 파워업 사용!');
+            }
+
+            updateUpgrades() {
+                const upgradesList = document.getElementById('upgradesList');
+                upgradesList.innerHTML = '';
+                
+                const upgradeOptions = [
+                    { id: 'explosionRadius', name: '폭발 반경 +1', cost: 100, current: this.upgrades.explosionRadius },
+                    { id: 'comboMultiplier', name: '콤보 배율 +0.5', cost: 150, current: this.upgrades.comboMultiplier },
+                    { id: 'scoreMultiplier', name: '점수 배율 +0.5', cost: 200, current: this.upgrades.scoreMultiplier },
+                    { id: 'extraMoves', name: '추가 이동 +5', cost: 80, current: this.upgrades.extraMoves }
+                ];
+                
+                upgradeOptions.forEach(upgrade => {
+                    const upgradeDiv = document.createElement('div');
+                    upgradeDiv.className = 'upgrade-item';
+                    
+                    upgradeDiv.innerHTML = `
+                        <div style="font-weight: bold;">${upgrade.name}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">현재: ${upgrade.current}</div>
+                        <button class="upgrade-button" onclick="game.buyUpgrade('${upgrade.id}')" 
+                                ${this.coins < upgrade.cost ? 'disabled' : ''}>
+                            구매 (${upgrade.cost} 코인)
+                        </button>
+                    `;
+                    
+                    upgradesList.appendChild(upgradeDiv);
+                });
+            }
+
+            buyUpgrade(type) {
+                const upgradeCosts = {
+                    explosionRadius: 100,
+                    comboMultiplier: 150,
+                    scoreMultiplier: 200,
+                    extraMoves: 80
+                };
+                
+                const cost = upgradeCosts[type];
+                if (!cost || this.coins < cost) return;
+                
+                this.coins -= cost;
+                
+                switch (type) {
+                    case 'explosionRadius':
+                        this.upgrades.explosionRadius++;
+                        break;
+                    case 'comboMultiplier':
+                        this.upgrades.comboMultiplier += 0.5;
+                        break;
+                    case 'scoreMultiplier':
+                        this.upgrades.scoreMultiplier += 0.5;
+                        break;
+                    case 'extraMoves':
+                        this.upgrades.extraMoves += 5;
+                        break;
+                }
+                
+                this.showNotification('업그레이드 구매 완료!');
+                this.saveGameData();
+                this.updateUpgrades();
+                this.updateUI();
+            }
+
+            updateStats() {
+                const statsDisplay = document.getElementById('statsDisplay');
+                const totalMissionProgress = this.missions.reduce((sum, mission) => sum + mission.current, 0);
+                
+                statsDisplay.innerHTML = `
+                    <div style="margin-bottom: 10px;">
+                        <div class="info-label">최고 점수</div>
+                        <div class="info-value">${localStorage.getItem('highScore') || 0}</div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div class="info-label">플레이 시간</div>
+                        <div class="info-value">${Math.floor((Date.now() - (parseInt(localStorage.getItem('startTime')) || Date.now())) / 60000)}분</div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div class="info-label">총 미션 진행</div>
+                        <div class="info-value">${totalMissionProgress}</div>
+                    </div>
+                `;
+            }
+
+            showNotification(message) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+
+            saveGameData() {
+                const gameData = {
+                    highScore: Math.max(this.score, parseInt(localStorage.getItem('highScore')) || 0),
+                    coins: this.coins,
+                    upgrades: this.upgrades,
+                    missions: this.missions
+                };
+                
+                localStorage.setItem('gameData', JSON.stringify(gameData));
+                localStorage.setItem('highScore', gameData.highScore.toString());
+                if (!localStorage.getItem('startTime')) {
+                    localStorage.setItem('startTime', Date.now().toString());
+                }
+            }
+
+            loadGameData() {
+                const savedData = localStorage.getItem('gameData');
+                if (savedData) {
+                    const gameData = JSON.parse(savedData);
+                    this.coins = gameData.coins || 100;
+                    this.upgrades = { ...this.upgrades, ...gameData.upgrades };
+                    if (gameData.missions) {
+                        this.missions = gameData.missions;
+                    }
+                }
+            }
+
+            updateUI() {
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('level').textContent = this.level;
+                document.getElementById('moves').textContent = this.moves;
+                document.getElementById('combo').textContent = this.combo;
+                document.getElementById('coins').textContent = this.coins;
+                
+                this.saveGameData();
+                this.updateStats();
+            }
+
+            newGame() {
+                this.board.innerHTML = '';
+                this.blocks = [];
+                this.obstacles = [];
+                this.powerUps = [];
+                this.selectedBlock = null;
+                this.score = 0;
+                this.level = 1;
+                this.moves = 0;
+                this.combo = 0;
+                this.timeRemaining = 120;
+                this.movesRemaining = 30 + this.upgrades.extraMoves;
+                this.bossHealth = this.maxBossHealth;
+                
+                this.createInitialBlocks();
+                this.updateUI();
+                this.updateMissions();
+                this.updatePowerUps();
+                this.updateUpgrades();
+            }
+        }
+
+        let game;
+
+        function initGame() {
+            game = new EnhancedGreaterGame();
+        }
+
+        function newGame() {
+            game.newGame();
+        }
+
+        function pauseGame() {
+            game.pauseGame();
+        }
+
+        function showHint() {
+            game.showHint();
+        }
+
+        function shuffle() {
+            game.shuffle();
+        }
+
+        function setGameMode(mode) {
+            game.setGameMode(mode);
+        }
+
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>
