@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_Lambda</title>
+</head>
+<body>
+	<script>
+	let sum = (a, b) => a + b;
+	
+	sum = function(a, b) {
+	  return a + b;
+	};
+	(sum(1, 2)); // 3
+	let square = n => n * n;
+	alert(square(3)); // 9
+	
+	sum = (a, b) => {
+	  let result = a + b;
+	  return result;
+	};
+	alert(sum(1, 2));
+	</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_Lambda</title>
+</head>
+<body>
+	<script>
+	let fruits = ["바나나"]
+	let arr = fruits;
+	alert( arr === fruits );
+	arr.push("배");
+	alert( fruits );
+
+	fruits = ["사과", "오렌지", "자두"];
+	for (let fruit of fruits) {
+	  alert( fruit );
+	}
+	for (let key in arr) {
+	  alert( arr[key]);
+	}
+	let numbers = [1, 2, 3];
+	let doubled = numbers.map(n => n * 2);
+	console.log(doubled); // [2, 4, 6]
+	</script>
+</body>
+</html>
