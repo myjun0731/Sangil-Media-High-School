@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_Let</title>
+</head>
+<body>
+	<script>
+		let n = 123;
+		n = 12.345;
+		n = NaN;
+		n = Infinity;
+		n = -Infinity;
+
+		let bigN = 1234567890987654321234567890
+		n;
+		let str = "Hello, World";
+		let isHuman = true;
+		let name = null;
+		let age;
+		alert(age); // age is undefined
+
+		const a = Symbol('mySymbol');
+		const b = Symbol('mySymbol');
+		console.log(a === b); // false
+		console.log(a == b); // false
+	</script>
+</body>
+</html>
