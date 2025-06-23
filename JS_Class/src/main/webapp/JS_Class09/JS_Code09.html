@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS_Array</title>
+</head>
+<body>
+	<script>
+	let arr = ["I", "study", "JavaScript"];
+	arr.splice(1, 1); // ["I", "JavaScript"]
+
+	arr = ["I", "study", "JavaScript", "right", "now"];
+	arr.splice(0, 3, "Let's", "dance");
+	// ["Let's", "dance", "right", "now"]
+
+	let users = [{id: 1, name: "John"},
+	             {id: 2, name: "Pete"},
+	             {id: 3, name: "Mary"}];
+	let user = users.find(item => item.id == 1);
+	alert(user.name);
+
+	arr = [1, 0, false];
+	arr.indexOf(0);     // 1
+	arr.indexOf(false); // 2
+	</script>
+</body>
+</html>
